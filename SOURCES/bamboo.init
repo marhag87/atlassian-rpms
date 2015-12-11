@@ -1,0 +1,29 @@
+#!/bin/bash
+
+SYSTEMCTL_SKIP_REDIRECT="true"
+source /etc/rc.d/init.d/functions
+
+USER=bamboo
+
+# Bitbucket Linux service controller script
+cd "/usr/share/atlassian/bamboo/bin"
+
+case "$1" in
+    start)
+         /bin/su $USER -c './start-bamboo.sh'
+        ;;
+    stop)
+        /bin/su $USER -c './stop-bamboo.sh'
+        ;;
+    restart)
+        /bin/su $USER -c './stop-bamboo.sh'
+        /bin/su $USER -c './start-bamboo.sh'
+        ;;
+    status)
+        status -p /usr/share/atlassian/bamboo/work/catalina.pid bamboo
+        ;;
+    *)
+        echo "Usage: $0 {start|stop|restart|status}"
+        exit 1
+        ;;
+esac

@@ -1,0 +1,27 @@
+#!/bin/bash
+
+SYSTEMCTL_SKIP_REDIRECT="true"
+source /etc/rc.d/init.d/functions
+
+# Confluence Linux service controller script
+cd "/usr/share/atlassian/confluence/bin"
+
+case "$1" in
+    start)
+        ./start-confluence.sh
+        ;;
+    stop)
+        ./stop-confluence.sh
+        ;;
+    restart)
+        ./stop-confluence.sh
+        ./start-confluence.sh
+        ;;
+    status)
+        status -p /usr/share/atlassian/confluence/work/catalina.pid confluence
+        ;;
+    *)
+        echo "Usage: $0 {start|stop|restart|status}"
+        exit 1
+        ;;
+esac

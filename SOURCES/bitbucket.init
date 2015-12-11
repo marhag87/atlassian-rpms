@@ -1,0 +1,27 @@
+#!/bin/bash
+
+SYSTEMCTL_SKIP_REDIRECT="true"
+source /etc/rc.d/init.d/functions
+
+# Bitbucket Linux service controller script
+cd "/usr/share/atlassian/bitbucket/bin"
+
+case "$1" in
+    start)
+        ./start-bitbucket.sh
+        ;;
+    stop)
+        ./stop-bitbucket.sh
+        ;;
+    restart)
+        ./stop-bitbucket.sh
+        ./start-bitbucket.sh
+        ;;
+    status)
+        status -p /usr/share/atlassian/bitbucket/work/catalina.pid bitbucket
+        ;;
+    *)
+        echo "Usage: $0 {start|stop|restart|status}"
+        exit 1
+        ;;
+esac

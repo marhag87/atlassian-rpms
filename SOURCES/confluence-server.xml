@@ -1,0 +1,38 @@
+<Server port="8000" shutdown="SHUTDOWN" debug="0">
+    <Service name="Tomcat-Standalone">
+        <Connector port="8090"
+                   connectionTimeout="20000"
+                   redirectPort="8443"
+                   maxThreads="200"
+                   minSpareThreads="10"
+                   enableLookups="false"
+                   acceptCount="10"
+                   debug="0"
+                   URIEncoding="UTF-8"
+                   protocol="org.apache.coyote.http11.Http11NioProtocol"
+                   scheme="https"
+                   proxyPort="443"
+                   secure="true"
+        />
+
+        <Connector port="8091"
+                   connectionTimeout="20000"
+                   maxThreads="200"
+                   minSpareThreads="10"
+                   enableLookups="false"
+                   acceptCount="10"
+                   debug="0"
+                   URIEncoding="UTF-8"
+                   protocol="org.apache.coyote.http11.Http11NioProtocol"
+        />
+
+        <Engine name="Standalone" defaultHost="localhost" debug="0">
+            <Host name="localhost" debug="0" appBase="webapps" unpackWARs="true" autoDeploy="false">
+                <Context path="" docBase="../confluence" debug="0" reloadable="false" useHttpOnly="true">
+                    <Manager pathname="" />
+                </Context>
+            </Host>
+        </Engine>
+    </Service>
+</Server>
+

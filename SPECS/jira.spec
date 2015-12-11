@@ -8,9 +8,9 @@ URL:            https://www.atlassian.com/software/jira
 Source0:        atlassian-%{name}-software-%{version}-%{name}-%{version}.tar.gz
 Source1:        %{name}.init
 Source2:        %{name}-application.properties
-Source3:        server.xml
+Source3:        %{name}-server.xml
 Source4:        mysql-connector-java-5.1.37-bin.jar
-Source5:        user.sh
+Source5:        %{name}-user.sh
 Buildroot:      %{_tmppath}/%{name}-%{version}-%{release}-root
 
 Requires:       java-1.8.0-oracle
