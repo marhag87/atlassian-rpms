@@ -1,0 +1,6 @@
+*.swp
+BUILD
+BUILDROOT
+RPMS
+SRPMS
+SOURCES/atlassian-jira-*.tar.gz

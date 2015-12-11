@@ -1,0 +1,27 @@
+#!/bin/bash
+
+SYSTEMCTL_SKIP_REDIRECT="true"
+source /etc/rc.d/init.d/functions
+
+# JIRA Linux service controller script
+cd "/usr/share/atlassian/jira/bin"
+
+case "$1" in
+    start)
+        ./start-jira.sh
+        ;;
+    stop)
+        ./stop-jira.sh
+        ;;
+    restart)
+        ./stop-jira.sh
+        ./start-jira.sh
+        ;;
+    status)
+        status -p /usr/share/atlassian/jira/work/catalina.pid jira
+        ;;
+    *)
+        echo "Usage: $0 {start|stop|restart|status}"
+        exit 1
+        ;;
+esac
