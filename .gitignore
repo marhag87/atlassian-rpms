@@ -1,4 +1,5 @@
 *.swp
+*.rpm
 BUILD
 BUILDROOT
 RPMS
