@@ -5,7 +5,7 @@ Summary:        An issue tracking web application
 
 License:        Proprietary
 URL:            https://www.atlassian.com/software/jira
-Source0:        atlassian-%{name}-software-%{version}-%{name}-%{version}.tar.gz
+Source0:        https://www.atlassian.com/software/jira/downloads/binary/atlassian-%{name}-software-%{version}-%{name}-%{version}.tar.gz
 Source1:        %{name}.init
 Source2:        %{name}-application.properties
 Source3:        %{name}-server.xml
@@ -28,6 +28,8 @@ An issue tracking web application
 
 %prep
 %setup -q -n "atlassian-%{name}-software-%{version}-standalone"
+
+%build
 
 %install
 install -p -d -m 0755 %{buildroot}%{jiradatadir}

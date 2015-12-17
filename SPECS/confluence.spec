@@ -5,7 +5,7 @@ Summary:        A team collaboration web application
 
 License:        Proprietary
 URL:            https://www.atlassian.com/software/confluence
-Source0:        atlassian-%{name}-%{version}.tar.gz
+Source0:        https://www.atlassian.com/software/confluence/downloads/binary/atlassian-%{name}-%{version}.tar.gz
 Source1:        %{name}.init
 Source2:        %{name}-init.properties
 Source3:        %{name}-server.xml
@@ -28,6 +28,8 @@ A team collaboration web application
 
 %prep
 %setup -q -n "atlassian-%{name}-%{version}"
+
+%build
 
 %install
 install -p -d -m 0755 %{buildroot}%{confluencedatadir}

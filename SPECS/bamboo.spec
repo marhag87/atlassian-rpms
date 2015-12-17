@@ -5,7 +5,7 @@ Summary:        A continuous integration web application
 
 License:        Proprietary
 URL:            https://www.atlassian.com/software/bamboo
-Source0:        atlassian-%{name}-%{version}.tar.gz
+Source0:        https://www.atlassian.com/software/bamboo/downloads/binary/atlassian-%{name}-%{version}.tar.gz
 Source1:        %{name}.init
 Source2:        %{name}-server.xml
 Source3:        mysql-connector-java-5.1.37-bin.jar
@@ -30,6 +30,8 @@ A continuous integration web application
 
 %prep
 %setup -q -n "atlassian-%{name}-%{version}"
+
+%build
 
 %install
 install -p -d -m 0755 %{buildroot}%{bamboodatadir}
