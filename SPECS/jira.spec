@@ -1,6 +1,6 @@
 Name:           jira
-Version:        7.0.4
-Release:        2%{?dist}
+Version:        7.0.5
+Release:        1%{?dist}
 Summary:        An issue tracking web application
 
 License:        Proprietary
@@ -78,6 +78,8 @@ fi
 %{_sysconfdir}/init.d/%{name}
 
 %changelog
+* Sat Dec 19 2015 Martin Hagstrom (API) <marhag87@gmail.com> 7.0.5-1
+- Update to 7.0.5
 * Sat Dec 19 2015 Martin Hagstrom <marhag87@gmail.com> 7.0.4-2
 - Don't build debug package
 * Fri Dec 11 2015 Martin Hagstrom <marhag87@gmail.com> 7.0.4-1
