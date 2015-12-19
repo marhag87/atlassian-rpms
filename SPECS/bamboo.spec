@@ -1,6 +1,6 @@
 Name:           bamboo
 Version:        5.9.7
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        A continuous integration web application
 
 License:        Proprietary
@@ -20,6 +20,12 @@ Requires(pre):  shadow-utils
 
 # Don't repackage jar files
 %define __jar_repack %{nil}
+
+# Don't get osgi provides and requires
+%define __osgi_provides %{nil}
+%define __osgi_requires %{nil}
+%define __osgi_provides_opts %{nil}
+%define __osgi_requires_opts %{nil}
 
 # Don't build debug package
 %define debug_package %{nil}
@@ -81,6 +87,8 @@ fi
 %{_sysconfdir}/init.d/%{name}
 
 %changelog
+* Sat Dec 19 2015 Martin Hagstrom <marhag87@gmail.com> 5.9.7-3
+- Don't get osgi provides and requires
 * Sat Dec 19 2015 Martin Hagstrom <marhag87@gmail.com> 5.9.7-2
 - Don't build debug package
 * Fri Dec 11 2015 Martin Hagstrom <marhag87@gmail.com> 5.9.7-1

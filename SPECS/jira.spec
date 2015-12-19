@@ -1,6 +1,6 @@
 Name:           jira
 Version:        7.0.5
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        An issue tracking web application
 
 License:        Proprietary
@@ -18,6 +18,12 @@ Requires(pre):  shadow-utils
 
 # Don't repackage jar files
 %define __jar_repack %{nil}
+
+# Don't get osgi provides and requires
+%define __osgi_provides %{nil}
+%define __osgi_requires %{nil}
+%define __osgi_provides_opts %{nil}
+%define __osgi_requires_opts %{nil}
 
 # Don't build debug package
 %define debug_package %{nil}
@@ -78,6 +84,8 @@ fi
 %{_sysconfdir}/init.d/%{name}
 
 %changelog
+* Sat Dec 19 2015 Martin Hagstrom <marhag87@gmail.com> 7.0.5-2
+- Don't get osgi provides and requires
 * Sat Dec 19 2015 Martin Hagstrom (API) <marhag87@gmail.com> 7.0.5-1
 - Update to 7.0.5
 * Sat Dec 19 2015 Martin Hagstrom <marhag87@gmail.com> 7.0.4-2
