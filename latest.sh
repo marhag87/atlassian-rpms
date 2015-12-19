@@ -18,7 +18,11 @@ function compareversions() {
   fi
 }
 
-compareversions jira jira-software
-compareversions bitbucket stash
-compareversions confluence
-compareversions bamboo
+if [[ -z $1 ]]; then
+  compareversions jira jira-software
+  compareversions bitbucket stash
+  compareversions confluence
+  compareversions bamboo
+else
+  compareversions $@
+fi
