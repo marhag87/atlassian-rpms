@@ -12,8 +12,8 @@ function getcurrentversion() {
 
 function compareversions() {
   latestversion=$(getlatestversion ${2:-$1})
-  diff -w <(getcurrentversion $1) <(echo $latestversion) > /dev/null 2>&1
-  if [[ $? -ne 0 ]]; then
+  currentversion=$(getcurrentversion $1)
+  if [[ $currentversion != $latestversion ]]; then
     echo "$1 not up to date, latest version: ${latestversion}"
   fi
 }
