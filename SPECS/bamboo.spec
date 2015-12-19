@@ -1,6 +1,6 @@
 Name:           bamboo
 Version:        5.9.7
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A continuous integration web application
 
 License:        Proprietary
@@ -20,6 +20,9 @@ Requires(pre):  shadow-utils
 
 # Don't repackage jar files
 %define __jar_repack %{nil}
+
+# Don't build debug package
+%define debug_package %{nil}
 
 %define bamboodatadir %{_datarootdir}/atlassian/%{name}
 %define bamboohomedir %{_localstatedir}/atlassian/application-data/%{name}
@@ -78,5 +81,7 @@ fi
 %{_sysconfdir}/init.d/%{name}
 
 %changelog
+* Sat Dec 19 2015 Martin Hagstrom <marhag87@gmail.com> 5.9.7-2
+- Don't build debug package
 * Fri Dec 11 2015 Martin Hagstrom <marhag87@gmail.com> 5.9.7-1
 - Initial release

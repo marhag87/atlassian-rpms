@@ -1,6 +1,6 @@
 Name:           bitbucket
 Version:        4.2.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A GIT repository web application
 
 License:        Proprietary
@@ -19,6 +19,9 @@ Requires(pre):  shadow-utils
 
 # Don't repackage jar files
 %define __jar_repack %{nil}
+
+# Don't build debug package
+%define debug_package %{nil}
 
 %define bitbucketdatadir %{_datarootdir}/atlassian/%{name}
 %define bitbuckethomedir %{_localstatedir}/atlassian/application-data/%{name}
@@ -75,5 +78,7 @@ fi
 %{_sysconfdir}/init.d/%{name}
 
 %changelog
+* Sat Dec 19 2015 Martin Hagstrom <marhag87@gmail.com> 4.2.0-2
+- Don't build debug package
 * Fri Dec 11 2015 Martin Hagstrom <marhag87@gmail.com> 4.2.0-1
 - Initial release
