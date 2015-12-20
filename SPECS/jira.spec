@@ -1,11 +1,11 @@
 Name:           jira
 Version:        7.0.5
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        An issue tracking web application
 
 License:        Proprietary
 URL:            https://www.atlassian.com/software/jira
-Source0:        https://www.atlassian.com/software/jira/downloads/binary/atlassian-%{name}-software-%{version}-%{name}-%{version}.tar.gz
+Source0:        https://www.atlassian.com/software/jira/downloads/binary/atlassian-%{name}-software-%{version}-%{name}-%{version}.tar.gz#/atlassian-%{name}-%{version}.tar.gz
 Source1:        %{name}.init
 Source2:        %{name}-application.properties
 Source3:        %{name}-server.xml
@@ -84,6 +84,8 @@ fi
 %{_sysconfdir}/init.d/%{name}
 
 %changelog
+* Sun Dec 20 2015 Martin Hagstrom <marhag87@gmail.com> 7.0.5-3
+- Change source name to better comply with other atlassian products
 * Sat Dec 19 2015 Martin Hagstrom <marhag87@gmail.com> 7.0.5-2
 - Don't get osgi provides and requires
 * Sat Dec 19 2015 Martin Hagstrom (API) <marhag87@gmail.com> 7.0.5-1
