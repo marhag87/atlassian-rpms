@@ -1,6 +1,6 @@
 Name:           confluence
-Version:        5.9.2
-Release:        3%{?dist}
+Version:        5.9.3
+Release:        1%{?dist}
 Summary:        A team collaboration web application
 
 License:        Proprietary
@@ -84,6 +84,8 @@ fi
 %{_sysconfdir}/init.d/%{name}
 
 %changelog
+* Wed Dec 30 2015 Martin Hagstrom (API) <marhag87@gmail.com> 5.9.3-1
+- Update to 5.9.3
 * Sat Dec 19 2015 Martin Hagstrom <marhag87@gmail.com> 5.9.2-3
 - Don't get osgi provides and requires
 * Sat Dec 19 2015 Martin Hagstrom <marhag87@gmail.com> 5.9.2-2
