@@ -1,6 +1,6 @@
 Name:           jira
-Version:        7.0.5
-Release:        3%{?dist}
+Version:        7.0.7
+Release:        1%{?dist}
 Summary:        An issue tracking web application
 
 License:        Proprietary
@@ -84,6 +84,8 @@ fi
 %{_sysconfdir}/init.d/%{name}
 
 %changelog
+* Fri Jan 08 2016 Martin Hagstrom (API) <marhag87@gmail.com> 7.0.7-1
+- Update to 7.0.7
 * Sun Dec 20 2015 Martin Hagstrom <marhag87@gmail.com> 7.0.5-3
 - Change source name to better comply with other atlassian products
 * Sat Dec 19 2015 Martin Hagstrom <marhag87@gmail.com> 7.0.5-2
