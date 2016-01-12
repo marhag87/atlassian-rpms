@@ -1,6 +1,6 @@
 Name:           bitbucket
-Version:        4.2.0
-Release:        3%{?dist}
+Version:        4.3.0
+Release:        1%{?dist}
 Summary:        A GIT repository web application
 
 License:        Proprietary
@@ -84,6 +84,8 @@ fi
 %{_sysconfdir}/init.d/%{name}
 
 %changelog
+* Tue Jan 12 2016 Martin Hagstrom (API) <marhag87@gmail.com> 4.3.0-1
+- Update to 4.3.0
 * Sat Dec 19 2015 Martin Hagstrom <marhag87@gmail.com> 4.2.0-3
 - Don't get osgi provides and requires
 * Sat Dec 19 2015 Martin Hagstrom <marhag87@gmail.com> 4.2.0-2
