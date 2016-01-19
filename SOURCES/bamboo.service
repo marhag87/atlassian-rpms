@@ -1,0 +1,12 @@
+[Unit]
+Description=Atlassian Bamboo Service
+After=syslog.target network.target
+
+[Service]
+Type=forking
+User=bamboo
+ExecStart=/usr/share/atlassian/bamboo/bin/start-bamboo.sh
+ExecStop=/usr/share/atlassian/bamboo/bin/stop-bamboo.sh
+
+[Install]
+WantedBy=multi-user.target

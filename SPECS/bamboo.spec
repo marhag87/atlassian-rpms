@@ -1,12 +1,12 @@
 Name:           bamboo
 Version:        5.10.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A continuous integration web application
 
 License:        Proprietary
 URL:            https://www.atlassian.com/software/bamboo
 Source0:        https://www.atlassian.com/software/bamboo/downloads/binary/atlassian-%{name}-%{version}.tar.gz
-Source1:        %{name}.init
+Source1:        %{name}.service
 Source2:        %{name}-server.xml
 Source3:        mysql-connector-java-5.1.37-bin.jar
 Source4:        %{name}-init.properties
@@ -17,6 +17,7 @@ Buildroot:      %{_tmppath}/%{name}-%{version}-%{release}-root
 AutoReqProv:    no
 Requires:       java-1.8.0-oracle
 Requires(pre):  shadow-utils
+BuildRequires:  systemd
 
 # Don't repackage jar files
 %define __jar_repack %{nil}
@@ -46,11 +47,11 @@ A continuous integration web application
 install -p -d -m 0755 %{buildroot}%{bamboodatadir}
 install -p -d -m 0755 %{buildroot}%{bamboohomedir}
 install -p -d -m 0755 %{buildroot}%{bamboologdir}
-install -p -d -m 0755 %{buildroot}%{_sysconfdir}/init.d
+install -p -d -m 0755 %{buildroot}%{_unitdir}
 
 mv * %{buildroot}%{bamboodatadir}/
 
-install -p -m 0755 %{SOURCE1} %{buildroot}%{_sysconfdir}/init.d/%{name}
+install -p -m 0755 %{SOURCE1} %{buildroot}%{_unitdir}/%{name}.service
 install -p -m 0644 %{SOURCE2} %{buildroot}%{bamboodatadir}/conf/server.xml
 install -p -m 0644 %{SOURCE3} %{buildroot}%{bamboodatadir}/lib/mysql-connector-java-5.1.37-bin.jar
 install -p -m 0644 %{SOURCE4} %{buildroot}%{bamboodatadir}/atlassian-%{name}/WEB-INF/classes/%{name}-init.properties
@@ -84,9 +85,12 @@ fi
 %config(noreplace) %{bamboodatadir}/conf/server.xml
 %config(noreplace) %{bamboodatadir}/bin/setenv.sh
 %config(noreplace) %{bamboodatadir}/atlassian-%{name}/WEB-INF/classes/%{name}-init.properties
-%{_sysconfdir}/init.d/%{name}
+%{_unitdir}/%{name}.service
 
 %changelog
+* Tue Jan 19 2016 Martin Hagstrom <marhag87@gmail.com> 5.10.0-2
+- Update server.xml file for 5.10.0
+- Use systemd service file
 * Tue Jan 19 2016 Martin Hagstrom (API) <marhag87@gmail.com> 5.10.0-1
 - Update to 5.10.0
 * Sat Dec 19 2015 Martin Hagstrom <marhag87@gmail.com> 5.9.7-3

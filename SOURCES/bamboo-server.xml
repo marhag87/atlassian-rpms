@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Server port="8007" shutdown="SHUTDOWN">
     <Listener className="org.apache.catalina.core.AprLifecycleListener" SSLEngine="on"/>
-    <Listener className="org.apache.catalina.core.JasperListener"/>
     <Listener className="org.apache.catalina.mbeans.GlobalResourcesLifecycleListener"/>
     <Service name="Catalina">
         <Connector port="8085"
@@ -14,7 +13,8 @@
                    useBodyEncodingForURI="true"
                    redirectPort="8443"
                    acceptCount="100"
-                   disableUploadTimeout="true"/>
+                   disableUploadTimeout="true"
+                   URIEncoding="UTF-8"/>
         <Engine name="Catalina" defaultHost="localhost">
             <Host name="localhost" appBase="webapps" unpackWARs="true" autoDeploy="true">
                 <Context path="" docBase="${catalina.home}/atlassian-bamboo" reloadable="false" useHttpOnly="true">
