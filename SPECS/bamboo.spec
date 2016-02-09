@@ -1,6 +1,6 @@
 Name:           bamboo
-Version:        5.10.0
-Release:        2%{?dist}
+Version:        5.10.1.1
+Release:        1%{?dist}
 Summary:        A continuous integration web application
 
 License:        Proprietary
@@ -88,6 +88,8 @@ fi
 %{_unitdir}/%{name}.service
 
 %changelog
+* Tue Feb 09 2016 Martin Hagstrom (API) <marhag87@gmail.com> 5.10.1.1-1
+- Update to 5.10.1.1
 * Tue Jan 19 2016 Martin Hagstrom <marhag87@gmail.com> 5.10.0-2
 - Update server.xml file for 5.10.0
 - Use systemd service file
