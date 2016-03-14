@@ -1,6 +1,6 @@
 Name:           jira
 Version:        7.1.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        An issue tracking web application
 
 License:        Proprietary
@@ -70,7 +70,7 @@ exit 0
 
 %preun
 if [ $1 -eq 0 ] ; then
-  /etc/init.d/%{name} stop > /dev/null 2>&1
+  /etc/init.d/%{name} stop > /dev/null 2>&1 || true
 fi
 
 %files
@@ -84,6 +84,8 @@ fi
 %{_sysconfdir}/init.d/%{name}
 
 %changelog
+* Mon Mar 14 2016 Martin Hagstrom <martin.hagstrom@ericsson.com> 7.1.1-2
+- Allow failing service stop at uninstall
 * Wed Mar 02 2016 Martin Hagstrom (API) <marhag87@gmail.com> 7.1.1-1
 - Update to 7.1.1
 * Thu Feb 11 2016 Martin Hagstrom (API) <marhag87@gmail.com> 7.1.0-1
