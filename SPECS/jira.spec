@@ -1,6 +1,6 @@
 Name:           jira
-Version:        7.1.1
-Release:        2%{?dist}
+Version:        7.1.2
+Release:        1%{?dist}
 Summary:        An issue tracking web application
 
 License:        Proprietary
@@ -84,6 +84,8 @@ fi
 %{_sysconfdir}/init.d/%{name}
 
 %changelog
+* Wed Mar 16 2016 Martin Hagstrom (API) <marhag87@gmail.com> 7.1.2-1
+- Update to 7.1.2
 * Mon Mar 14 2016 Martin Hagstrom <martin.hagstrom@ericsson.com> 7.1.1-2
 - Allow failing service stop at uninstall
 * Wed Mar 02 2016 Martin Hagstrom (API) <marhag87@gmail.com> 7.1.1-1
