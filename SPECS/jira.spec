@@ -1,5 +1,5 @@
 Name:           jira
-Version:        7.1.2
+Version:        7.1.4
 Release:        1%{?dist}
 Summary:        An issue tracking web application
 
@@ -84,6 +84,8 @@ fi
 %{_sysconfdir}/init.d/%{name}
 
 %changelog
+* Wed Apr 06 2016 Martin Hagstrom (API) <marhag87@gmail.com> 7.1.4-1
+- Update to 7.1.4
 * Wed Mar 16 2016 Martin Hagstrom (API) <marhag87@gmail.com> 7.1.2-1
 - Update to 7.1.2
 * Mon Mar 14 2016 Martin Hagstrom <martin.hagstrom@ericsson.com> 7.1.1-2
