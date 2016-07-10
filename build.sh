@@ -6,7 +6,7 @@ function version() {
 
 function build() {
 	rm -rf BUILD BUILDROOT RPMS SRPMS || true
-  test -s SOURCES/atlassian-$1-$(version $1).tar.gz || wget https://downloads.atlassian.com/software/${2:-$1}/downloads/atlassian-${3}$1-$(version $1).tar.gz -O SOURCES/atlassian-$1-$(version $1).tar.gz
+  test -s SOURCES/atlassian-$1-$(version $1).tar.gz || wget https://downloads.atlassian.com/software/${2:-$1}/downloads/atlassian-${3:-$1}-$(version $1).tar.gz -O SOURCES/atlassian-$1-$(version $1).tar.gz
   rpmbuild --define "_topdir $(git rev-parse --show-toplevel)" -bb SPECS/$1.spec
   mv RPMS/x86_64/$1-*.rpm .
 }
@@ -19,7 +19,7 @@ if [[ -z $1 ]]; then
 else
   case $1 in
     jira)
-      build jira jira "jira-software-$(version jira)-"
+      build jira jira jira-software
       ;;
     bitbucket)
       build bitbucket stash
