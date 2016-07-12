@@ -1,5 +1,5 @@
 Name:           bamboo
-Version:        5.12.2.1
+Version:        5.12.3.1
 Release:        1%{?dist}
 Summary:        A continuous integration web application
 
@@ -88,6 +88,8 @@ fi
 %{_unitdir}/%{name}.service
 
 %changelog
+* Tue Jul 12 2016 Martin Hagstrom (API) <marhag87@gmail.com> 5.12.3.1-1
+- Update to 5.12.3.1
 * Thu Jun 16 2016 Martin Hagstrom (API) <marhag87@gmail.com> 5.12.2.1-1
 - Update to 5.12.2.1
 * Wed Jun 01 2016 Martin Hagstrom (API) <marhag87@gmail.com> 5.12.2-1
