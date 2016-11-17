@@ -1,5 +1,5 @@
 Name:           bitbucket
-Version:        4.11.0
+Version:        4.11.1
 Release:        1%{?dist}
 Summary:        A GIT repository web application
 
@@ -84,6 +84,8 @@ fi
 %{_sysconfdir}/init.d/%{name}
 
 %changelog
+* Thu Nov 17 2016 Martin Hagstrom (API) <marhag87@gmail.com> 4.11.1-1
+- Update to 4.11.1
 * Tue Nov 08 2016 Martin Hagstrom (API) <marhag87@gmail.com> 4.11.0-1
 - Update to 4.11.0
 * Sat Oct 15 2016 Martin Hagstrom (API) <marhag87@gmail.com> 4.10.1-1
