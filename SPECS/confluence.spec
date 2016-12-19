@@ -1,5 +1,5 @@
 Name:           confluence
-Version:        5.10.8
+Version:        6.0.3
 Release:        1%{?dist}
 Summary:        A team collaboration web application
 
@@ -84,6 +84,8 @@ fi
 %{_sysconfdir}/init.d/%{name}
 
 %changelog
+* Mon Dec 19 2016 Martin Hagstrom (API) <marhag87@gmail.com> 6.0.3-1
+- Update to 6.0.3
 * Thu Oct 20 2016 Martin Hagstrom (API) <marhag87@gmail.com> 5.10.8-1
 - Update to 5.10.8
 * Fri Sep 30 2016 Martin Hagstrom (API) <marhag87@gmail.com> 5.10.7-1
