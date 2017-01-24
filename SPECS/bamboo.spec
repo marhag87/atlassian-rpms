@@ -1,6 +1,7 @@
 Name:           bamboo
 Version:        5.14.4.1
-Release:        1%{?dist}
+Release:        2%{?dist}
+%define         mysqlconnectorversion 5.1.40
 Summary:        A continuous integration web application
 
 License:        Proprietary
@@ -8,7 +9,7 @@ URL:            https://www.atlassian.com/software/bamboo
 Source0:        https://www.atlassian.com/software/bamboo/downloads/binary/atlassian-%{name}-%{version}.tar.gz
 Source1:        %{name}.service
 Source2:        %{name}-server.xml
-Source3:        mysql-connector-java-5.1.37-bin.jar
+Source3:        mysql-connector-java-%{mysqlconnectorversion}-bin.jar
 Source4:        %{name}-init.properties
 Source5:        stop-%{name}.sh
 Source6:        %{name}-setenv.sh
@@ -53,7 +54,7 @@ mv * %{buildroot}%{bamboodatadir}/
 
 install -p -m 0755 %{SOURCE1} %{buildroot}%{_unitdir}/%{name}.service
 install -p -m 0644 %{SOURCE2} %{buildroot}%{bamboodatadir}/conf/server.xml
-install -p -m 0644 %{SOURCE3} %{buildroot}%{bamboodatadir}/lib/mysql-connector-java-5.1.37-bin.jar
+install -p -m 0644 %{SOURCE3} %{buildroot}%{bamboodatadir}/lib/mysql-connector-java-%{mysqlconnectorversion}-bin.jar
 install -p -m 0644 %{SOURCE4} %{buildroot}%{bamboodatadir}/atlassian-%{name}/WEB-INF/classes/%{name}-init.properties
 install -p -m 0755 %{SOURCE5} %{buildroot}%{bamboodatadir}/bin/stop-%{name}.sh
 install -p -m 0755 %{SOURCE6} %{buildroot}%{bamboodatadir}/bin/setenv.sh
@@ -88,6 +89,8 @@ fi
 %{_unitdir}/%{name}.service
 
 %changelog
+* Tue Jan 24 2017 Martin Hagstrom <marhag87@gmail.com> 5.14.4.1-2
+- Update mysql connector to 5.1.40
 * Thu Jan 12 2017 Martin Hagstrom (API) <marhag87@gmail.com> 5.14.4.1-1
 - Update to 5.14.4.1
 * Mon Dec 05 2016 Martin Hagstrom (API) <marhag87@gmail.com> 5.14.3.1-1

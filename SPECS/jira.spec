@@ -1,6 +1,7 @@
 Name:           jira
 Version:        7.3.0
-Release:        1%{?dist}
+Release:        2%{?dist}
+%define         mysqlconnectorversion 5.1.40
 Summary:        An issue tracking web application
 
 License:        Proprietary
@@ -9,7 +10,7 @@ Source0:        https://www.atlassian.com/software/jira/downloads/binary/atlassi
 Source1:        %{name}.init
 Source2:        %{name}-application.properties
 Source3:        %{name}-server.xml
-Source4:        mysql-connector-java-5.1.37-bin.jar
+Source4:        mysql-connector-java-%{mysqlconnectorversion}-bin.jar
 Source5:        %{name}-user.sh
 Buildroot:      %{_tmppath}/%{name}-%{version}-%{release}-root
 
@@ -51,7 +52,7 @@ mv * %{buildroot}%{jiradatadir}/
 install -p -m 0755 %{SOURCE1} %{buildroot}%{_sysconfdir}/init.d/%{name}
 install -p -m 0644 %{SOURCE2} %{buildroot}%{jiradatadir}/atlassian-%{name}/WEB-INF/classes/%{name}-application.properties
 install -p -m 0644 %{SOURCE3} %{buildroot}%{jiradatadir}/conf/server.xml
-install -p -m 0644 %{SOURCE4} %{buildroot}%{jiradatadir}/lib/mysql-connector-java-5.1.37-bin.jar
+install -p -m 0644 %{SOURCE4} %{buildroot}%{jiradatadir}/lib/mysql-connector-java-%{mysqlconnectorversion}-bin.jar
 install -p -m 0644 %{SOURCE5} %{buildroot}%{jiradatadir}/bin/user.sh
 
 rmdir %{buildroot}%{jiradatadir}/logs
@@ -84,6 +85,8 @@ fi
 %{_sysconfdir}/init.d/%{name}
 
 %changelog
+* Tue Jan 24 2017 Martin Hagstrom <marhag87@gmail.com> 7.3.0-2
+- Update mysql connector to 5.1.40
 * Tue Jan 03 2017 Martin Hagstrom (API) <marhag87@gmail.com> 7.3.0-1
 - Update to 7.3.0
 * Thu Dec 29 2016 Martin Hagstrom (API) <marhag87@gmail.com> 7.2.7-1

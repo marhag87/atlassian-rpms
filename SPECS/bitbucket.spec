@@ -1,6 +1,7 @@
 Name:           bitbucket
 Version:        4.13.0
-Release:        1%{?dist}
+Release:        2%{?dist}
+%define         mysqlconnectorversion 5.1.40
 Summary:        A GIT repository web application
 
 License:        Proprietary
@@ -8,7 +9,7 @@ URL:            https://www.atlassian.com/software/bitbucket
 Source0:        https://www.atlassian.com/software/stash/downloads/binary/atlassian-%{name}-%{version}.tar.gz
 Source1:        %{name}.init
 Source2:        %{name}-server.xml
-Source3:        mysql-connector-java-5.1.37-bin.jar
+Source3:        mysql-connector-java-%{mysqlconnectorversion}-bin.jar
 Source4:        %{name}-user.sh
 Source5:        %{name}-setenv.sh
 Buildroot:      %{_tmppath}/%{name}-%{version}-%{release}-root
@@ -51,7 +52,7 @@ mv * %{buildroot}%{bitbucketdatadir}/
 
 install -p -m 0755 %{SOURCE1} %{buildroot}%{_sysconfdir}/init.d/%{name}
 install -p -m 0644 %{SOURCE2} %{buildroot}%{bitbucketdatadir}/conf/server.xml
-install -p -m 0644 %{SOURCE3} %{buildroot}%{bitbucketdatadir}/lib/mysql-connector-java-5.1.37-bin.jar
+install -p -m 0644 %{SOURCE3} %{buildroot}%{bitbucketdatadir}/lib/mysql-connector-java-%{mysqlconnectorversion}-bin.jar
 install -p -m 0644 %{SOURCE4} %{buildroot}%{bitbucketdatadir}/bin/user.sh
 install -p -m 0755 %{SOURCE5} %{buildroot}%{bitbucketdatadir}/bin/setenv.sh
 
@@ -84,6 +85,8 @@ fi
 %{_sysconfdir}/init.d/%{name}
 
 %changelog
+* Tue Jan 24 2017 Martin Hagstrom <marhag87@gmail.com> 4.13.0-2
+- Update mysql connector to 5.1.40
 * Fri Jan 20 2017 Martin Hagstrom (API) <marhag87@gmail.com> 4.13.0-1
 - Update to 4.13.0
 * Wed Jan 04 2017 Martin Hagstrom (API) <marhag87@gmail.com> 4.12.1-1

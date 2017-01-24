@@ -1,6 +1,7 @@
 Name:           confluence
 Version:        6.0.4
-Release:        2%{?dist}
+Release:        3%{?dist}
+%define         mysqlconnectorversion 5.1.40
 Summary:        A team collaboration web application
 
 License:        Proprietary
@@ -9,7 +10,7 @@ Source0:        https://www.atlassian.com/software/confluence/downloads/binary/a
 Source1:        %{name}.init
 Source2:        %{name}-init.properties
 Source3:        %{name}-server.xml
-Source4:        mysql-connector-java-5.1.37-bin.jar
+Source4:        mysql-connector-java-%{mysqlconnectorversion}-bin.jar
 Source5:        %{name}-user.sh
 Buildroot:      %{_tmppath}/%{name}-%{version}-%{release}-root
 
@@ -51,7 +52,7 @@ mv * %{buildroot}%{confluencedatadir}/
 install -p -m 0755 %{SOURCE1} %{buildroot}%{_sysconfdir}/init.d/%{name}
 install -p -m 0644 %{SOURCE2} %{buildroot}%{confluencedatadir}/%{name}/WEB-INF/classes/%{name}-init.properties
 install -p -m 0644 %{SOURCE3} %{buildroot}%{confluencedatadir}/conf/server.xml
-install -p -m 0644 %{SOURCE4} %{buildroot}%{confluencedatadir}/%{name}/WEB-INF/lib/mysql-connector-java-5.1.37-bin.jar
+install -p -m 0644 %{SOURCE4} %{buildroot}%{confluencedatadir}/%{name}/WEB-INF/lib/mysql-connector-java-%{mysqlconnectorversion}-bin.jar
 install -p -m 0644 %{SOURCE5} %{buildroot}%{confluencedatadir}/bin/user.sh
 
 rmdir %{buildroot}%{confluencedatadir}/logs
@@ -84,6 +85,8 @@ fi
 %{_sysconfdir}/init.d/%{name}
 
 %changelog
+* Tue Jan 24 2017 Martin Hagstrom <marhag87@gmail.com> 6.0.4-3
+- Update mysql connector to 5.1.40
 * Tue Jan 17 2017 Martin Hagstrom <marhag87@gmail.com> 6.0.4-2
 - Update server.xml to 6.0 standard, removes https config
 * Tue Jan 17 2017 Martin Hagstrom (API) <marhag87@gmail.com> 6.0.4-1
