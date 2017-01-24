@@ -1,6 +1,6 @@
 Name:           confluence
 Version:        6.0.4
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A team collaboration web application
 
 License:        Proprietary
@@ -84,6 +84,8 @@ fi
 %{_sysconfdir}/init.d/%{name}
 
 %changelog
+* Tue Jan 17 2017 Martin Hagstrom <marhag87@gmail.com> 6.0.4-2
+- Update server.xml to 6.0 standard, removes https config
 * Tue Jan 17 2017 Martin Hagstrom (API) <marhag87@gmail.com> 6.0.4-1
 - Update to 6.0.4
 * Mon Dec 19 2016 Martin Hagstrom (API) <marhag87@gmail.com> 6.0.3-1
