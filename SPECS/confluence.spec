@@ -1,6 +1,6 @@
 Name:           confluence
-Version:        6.0.4
-Release:        3%{?dist}
+Version:        6.0.5
+Release:        1%{?dist}
 %define         mysqlconnectorversion 5.1.40
 Summary:        A team collaboration web application
 
@@ -85,6 +85,8 @@ fi
 %{_sysconfdir}/init.d/%{name}
 
 %changelog
+* Mon Feb 06 2017 Martin Hagstrom (API) <marhag87@gmail.com> 6.0.5-1
+- Update to 6.0.5
 * Tue Jan 24 2017 Martin Hagstrom <marhag87@gmail.com> 6.0.4-3
 - Update mysql connector to 5.1.40
 * Tue Jan 17 2017 Martin Hagstrom <marhag87@gmail.com> 6.0.4-2
