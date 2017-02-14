@@ -1,6 +1,6 @@
 Name:           bamboo
-Version:        5.14.4.1
-Release:        2%{?dist}
+Version:        5.15.0.1
+Release:        1%{?dist}
 %define         mysqlconnectorversion 5.1.40
 Summary:        A continuous integration web application
 
@@ -89,6 +89,8 @@ fi
 %{_unitdir}/%{name}.service
 
 %changelog
+* Tue Feb 14 2017 Martin Hagstrom (API) <marhag87@gmail.com> 5.15.0.1-1
+- Update to 5.15.0.1
 * Tue Jan 24 2017 Martin Hagstrom <marhag87@gmail.com> 5.14.4.1-2
 - Update mysql connector to 5.1.40
 * Thu Jan 12 2017 Martin Hagstrom (API) <marhag87@gmail.com> 5.14.4.1-1
