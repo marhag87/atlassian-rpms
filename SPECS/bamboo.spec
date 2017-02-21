@@ -1,6 +1,6 @@
 Name:           bamboo
 Version:        5.15.0.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 %define         mysqlconnectorversion 5.1.40
 Summary:        A continuous integration web application
 
@@ -16,7 +16,11 @@ Source6:        %{name}-setenv.sh
 Buildroot:      %{_tmppath}/%{name}-%{version}-%{release}-root
 
 AutoReqProv:    no
+%if 0%{?fedora}
+Requires:       java
+%else
 Requires:       java-1.8.0-oracle
+%endif
 Requires(pre):  shadow-utils
 BuildRequires:  systemd
 
@@ -89,6 +93,8 @@ fi
 %{_unitdir}/%{name}.service
 
 %changelog
+* Tue Feb 21 2017 Martin Hagstrom <marhag87@gmail.com> 5.15.0.1-2
+- Require java on Fedora
 * Tue Feb 14 2017 Martin Hagstrom (API) <marhag87@gmail.com> 5.15.0.1-1
 - Update to 5.15.0.1
 * Tue Jan 24 2017 Martin Hagstrom <marhag87@gmail.com> 5.14.4.1-2

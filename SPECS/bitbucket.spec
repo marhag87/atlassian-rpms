@@ -1,6 +1,6 @@
 Name:           bitbucket
 Version:        4.14.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 %define         mysqlconnectorversion 5.1.40
 Summary:        A GIT repository web application
 
@@ -14,7 +14,11 @@ Source4:        %{name}-user.sh
 Source5:        %{name}-setenv.sh
 Buildroot:      %{_tmppath}/%{name}-%{version}-%{release}-root
 
+%if 0%{?fedora}
+Requires:       java
+%else
 Requires:       java-1.8.0-oracle
+%endif
 Requires:       git >= 1.8.0
 Requires(pre):  shadow-utils
 
@@ -85,6 +89,8 @@ fi
 %{_sysconfdir}/init.d/%{name}
 
 %changelog
+* Tue Feb 21 2017 Martin Hagstrom <marhag87@gmail.com> 4.14.0-2
+- Require java on Fedora
 * Tue Feb 21 2017 Martin Hagstrom (API) <marhag87@gmail.com> 4.14.0-1
 - Update to 4.14.0
 * Tue Jan 24 2017 Martin Hagstrom <marhag87@gmail.com> 4.13.0-2

@@ -1,6 +1,6 @@
 Name:           jira
 Version:        7.3.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 %define         mysqlconnectorversion 5.1.40
 Summary:        An issue tracking web application
 
@@ -14,7 +14,11 @@ Source4:        mysql-connector-java-%{mysqlconnectorversion}-bin.jar
 Source5:        %{name}-user.sh
 Buildroot:      %{_tmppath}/%{name}-%{version}-%{release}-root
 
+%if 0%{?fedora}
+Requires:       java
+%else
 Requires:       java-1.8.0-oracle
+%endif
 Requires(pre):  shadow-utils
 
 # Don't repackage jar files
@@ -85,6 +89,8 @@ fi
 %{_sysconfdir}/init.d/%{name}
 
 %changelog
+* Tue Feb 21 2017 Martin Hagstrom <marhag87@gmail.com> 7.3.1-2
+- Require java on Fedora
 * Mon Feb 06 2017 Martin Hagstrom (API) <marhag87@gmail.com> 7.3.1-1
 - Update to 7.3.1
 * Tue Jan 24 2017 Martin Hagstrom <marhag87@gmail.com> 7.3.0-2

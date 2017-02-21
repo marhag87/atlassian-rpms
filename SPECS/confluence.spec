@@ -1,6 +1,6 @@
 Name:           confluence
 Version:        6.0.5
-Release:        1%{?dist}
+Release:        2%{?dist}
 %define         mysqlconnectorversion 5.1.40
 Summary:        A team collaboration web application
 
@@ -14,7 +14,11 @@ Source4:        mysql-connector-java-%{mysqlconnectorversion}-bin.jar
 Source5:        %{name}-user.sh
 Buildroot:      %{_tmppath}/%{name}-%{version}-%{release}-root
 
+%if 0%{?fedora}
+Requires:       java
+%else
 Requires:       java-1.8.0-oracle
+%endif
 Requires(pre):  shadow-utils
 
 # Don't repackage jar files
@@ -85,6 +89,8 @@ fi
 %{_sysconfdir}/init.d/%{name}
 
 %changelog
+* Tue Feb 21 2017 Martin Hagstrom <marhag87@gmail.com> 6.0.5-2
+- Require java on Fedora
 * Mon Feb 06 2017 Martin Hagstrom (API) <marhag87@gmail.com> 6.0.5-1
 - Update to 6.0.5
 * Tue Jan 24 2017 Martin Hagstrom <marhag87@gmail.com> 6.0.4-3
