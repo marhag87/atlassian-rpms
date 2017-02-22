@@ -1,6 +1,6 @@
 Name:           confluence
-Version:        6.0.5
-Release:        2%{?dist}
+Version:        6.0.6
+Release:        1%{?dist}
 %define         mysqlconnectorversion 5.1.40
 Summary:        A team collaboration web application
 
@@ -89,6 +89,8 @@ fi
 %{_sysconfdir}/init.d/%{name}
 
 %changelog
+* Wed Feb 22 2017 Martin Hagstrom (API) <marhag87@gmail.com> 6.0.6-1
+- Update to 6.0.6
 * Tue Feb 21 2017 Martin Hagstrom <marhag87@gmail.com> 6.0.5-2
 - Require java on Fedora
 * Mon Feb 06 2017 Martin Hagstrom (API) <marhag87@gmail.com> 6.0.5-1
