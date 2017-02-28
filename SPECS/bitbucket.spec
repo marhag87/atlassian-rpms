@@ -1,6 +1,6 @@
 Name:           bitbucket
-Version:        4.14.0
-Release:        2%{?dist}
+Version:        4.14.1
+Release:        1%{?dist}
 %define         mysqlconnectorversion 5.1.40
 Summary:        A GIT repository web application
 
@@ -89,6 +89,8 @@ fi
 %{_sysconfdir}/init.d/%{name}
 
 %changelog
+* Tue Feb 28 2017 Martin Hagstrom (API) <marhag87@gmail.com> 4.14.1-1
+- Update to 4.14.1
 * Tue Feb 21 2017 Martin Hagstrom <marhag87@gmail.com> 4.14.0-2
 - Require java on Fedora
 * Tue Feb 21 2017 Martin Hagstrom (API) <marhag87@gmail.com> 4.14.0-1
