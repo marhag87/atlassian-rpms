@@ -1,6 +1,6 @@
 Name:           jira
 Version:        7.5.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 %define         mysqlconnectorversion 5.1.40
 Summary:        An issue tracking web application
 
@@ -12,6 +12,7 @@ Source2:        %{name}-application.properties
 Source3:        %{name}-server.xml
 Source4:        mysql-connector-java-%{mysqlconnectorversion}-bin.jar
 Source5:        %{name}-user.sh
+Source6:        %{name}-check-java.sh
 Buildroot:      %{_tmppath}/%{name}-%{version}-%{release}-root
 
 %if 0%{?fedora}
@@ -58,6 +59,7 @@ install -p -m 0644 %{SOURCE2} %{buildroot}%{jiradatadir}/atlassian-%{name}/WEB-I
 install -p -m 0644 %{SOURCE3} %{buildroot}%{jiradatadir}/conf/server.xml
 install -p -m 0644 %{SOURCE4} %{buildroot}%{jiradatadir}/lib/mysql-connector-java-%{mysqlconnectorversion}-bin.jar
 install -p -m 0644 %{SOURCE5} %{buildroot}%{jiradatadir}/bin/user.sh
+install -p -m 0755 %{SOURCE6} %{buildroot}%{jiradatadir}/bin/check-java.sh
 
 rmdir %{buildroot}%{jiradatadir}/logs
 ln -sf %{jiralogdir} %{buildroot}%{jiradatadir}/logs
@@ -89,6 +91,8 @@ fi
 %{_sysconfdir}/init.d/%{name}
 
 %changelog
+* Thu Oct 26 2017 Martin Hagstrom <marhag87@gmail.com> 7.5.1-2
+- Allow OpenJDK java
 * Tue Oct 17 2017 Martin Hagstrom (API) <marhag87@gmail.com> 7.5.1-1
 - Update to 7.5.1
 * Thu Sep 07 2017 Martin Hagstrom (API) <marhag87@gmail.com> 7.5.0-1
