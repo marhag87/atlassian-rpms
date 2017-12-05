@@ -1,13 +1,13 @@
 Name:           jira
 Version:        7.6.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 %define         mysqlconnectorversion 5.1.40
 Summary:        An issue tracking web application
 
 License:        Proprietary
 URL:            https://www.atlassian.com/software/jira
 Source0:        https://www.atlassian.com/software/jira/downloads/binary/atlassian-%{name}-software-%{version}-%{name}-%{version}.tar.gz#/atlassian-%{name}-%{version}.tar.gz
-Source1:        %{name}.init
+Source1:        %{name}.service
 Source2:        %{name}-application.properties
 Source3:        %{name}-server.xml
 Source4:        mysql-connector-java-%{mysqlconnectorversion}-bin.jar
@@ -25,6 +25,7 @@ Requires:       java-1.8.0-oracle
 %endif
 %endif
 Requires(pre):  shadow-utils
+Requires:       systemd
 
 # Don't repackage jar files
 %define __jar_repack %{nil}
@@ -54,11 +55,11 @@ An issue tracking web application
 install -p -d -m 0755 %{buildroot}%{jiradatadir}
 install -p -d -m 0755 %{buildroot}%{jirahomedir}
 install -p -d -m 0755 %{buildroot}%{jiralogdir}
-install -p -d -m 0755 %{buildroot}%{_sysconfdir}/init.d
+install -p -d -m 0755 %{buildroot}%{_unitdir}
 
 mv * %{buildroot}%{jiradatadir}/
 
-install -p -m 0755 %{SOURCE1} %{buildroot}%{_sysconfdir}/init.d/%{name}
+install -p -m 0755 %{SOURCE1} %{buildroot}%{_unitdir}/%{name}.service
 install -p -m 0644 %{SOURCE2} %{buildroot}%{jiradatadir}/atlassian-%{name}/WEB-INF/classes/%{name}-application.properties
 install -p -m 0644 %{SOURCE3} %{buildroot}%{jiradatadir}/conf/server.xml
 install -p -m 0644 %{SOURCE4} %{buildroot}%{jiradatadir}/lib/mysql-connector-java-%{mysqlconnectorversion}-bin.jar
@@ -72,7 +73,7 @@ ln -sf %{jiralogdir} %{buildroot}%{jiradatadir}/logs
 rm -rf %{buildroot}
 
 %pre
-/etc/init.d/%{name} stop > /dev/null 2>&1
+service %{name} stop > /dev/null 2>&1
 getent group %{name} >/dev/null || groupadd -r %{name}
 getent passwd %{name} >/dev/null || \
     useradd -r -g %{name} -d %{jirahomedir} -s /bin/bash \
@@ -81,7 +82,7 @@ exit 0
 
 %preun
 if [ $1 -eq 0 ] ; then
-  /etc/init.d/%{name} stop > /dev/null 2>&1 || true
+  service %{name} stop > /dev/null 2>&1 || true
 fi
 
 %files
@@ -92,9 +93,11 @@ fi
 %config(noreplace) %{jiradatadir}/atlassian-%{name}/WEB-INF/classes/%{name}-application.properties
 %config(noreplace) %{jiradatadir}/conf/server.xml
 %config(noreplace) %{jiradatadir}/bin/setenv.sh
-%{_sysconfdir}/init.d/%{name}
+%{_unitdir}/%{name}.service
 
 %changelog
+* Tue Dec 05 2017 Martin Hagstrom <marhag87@gmail.com> 7.6.0-2
+- Use systemd
 * Thu Nov 16 2017 Martin Hagstrom (API) <marhag87@gmail.com> 7.6.0-1
 - Update to 7.6.0
 * Thu Nov 16 2017 Martin Hagstrom (API) <marhag87@gmail.com> 7.5.3-1
