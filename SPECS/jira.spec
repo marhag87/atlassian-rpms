@@ -18,7 +18,11 @@ Buildroot:      %{_tmppath}/%{name}-%{version}-%{release}-root
 %if 0%{?fedora}
 Requires:       java
 %else
+%if 0%{?centos}
+Requires:       java-1.8.0
+%else
 Requires:       java-1.8.0-oracle
+%endif
 %endif
 Requires(pre):  shadow-utils
 
