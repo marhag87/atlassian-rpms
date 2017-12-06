@@ -1,6 +1,6 @@
 Name:           jira
-Version:        7.6.0
-Release:        2%{?dist}
+Version:        7.6.1
+Release:        1%{?dist}
 %define         mysqlconnectorversion 5.1.40
 Summary:        An issue tracking web application
 
@@ -96,6 +96,8 @@ fi
 %{_unitdir}/%{name}.service
 
 %changelog
+* Thu Dec 07 2017 Martin Hagstrom (API) <marhag87@gmail.com> 7.6.1-1
+- Update to 7.6.1
 * Tue Dec 05 2017 Martin Hagstrom <marhag87@gmail.com> 7.6.0-2
 - Use systemd
 * Thu Nov 16 2017 Martin Hagstrom (API) <marhag87@gmail.com> 7.6.0-1
