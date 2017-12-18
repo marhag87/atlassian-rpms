@@ -1,6 +1,6 @@
 Name:           jira
 Version:        7.6.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 %define         mysqlconnectorversion 5.1.40
 Summary:        An issue tracking web application
 
@@ -59,7 +59,7 @@ install -p -d -m 0755 %{buildroot}%{_unitdir}
 
 mv * %{buildroot}%{jiradatadir}/
 
-install -p -m 0755 %{SOURCE1} %{buildroot}%{_unitdir}/%{name}.service
+install -p -m 0644 %{SOURCE1} %{buildroot}%{_unitdir}/%{name}.service
 install -p -m 0644 %{SOURCE2} %{buildroot}%{jiradatadir}/atlassian-%{name}/WEB-INF/classes/%{name}-application.properties
 install -p -m 0644 %{SOURCE3} %{buildroot}%{jiradatadir}/conf/server.xml
 install -p -m 0644 %{SOURCE4} %{buildroot}%{jiradatadir}/lib/mysql-connector-java-%{mysqlconnectorversion}-bin.jar
@@ -96,6 +96,8 @@ fi
 %{_unitdir}/%{name}.service
 
 %changelog
+* Mon Dec 18 2017 Martin Hagstrom <marhag87@gmail.com> 7.6.1-2
+- Systemd service file should not be executable
 * Thu Dec 07 2017 Martin Hagstrom (API) <marhag87@gmail.com> 7.6.1-1
 - Update to 7.6.1
 * Tue Dec 05 2017 Martin Hagstrom <marhag87@gmail.com> 7.6.0-2

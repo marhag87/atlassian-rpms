@@ -1,6 +1,6 @@
 Name:           bamboo
 Version:        6.2.5
-Release:        1%{?dist}
+Release:        2%{?dist}
 %define         mysqlconnectorversion 5.1.40
 Summary:        A continuous integration web application
 
@@ -56,7 +56,7 @@ install -p -d -m 0755 %{buildroot}%{_unitdir}
 
 mv * %{buildroot}%{bamboodatadir}/
 
-install -p -m 0755 %{SOURCE1} %{buildroot}%{_unitdir}/%{name}.service
+install -p -m 0644 %{SOURCE1} %{buildroot}%{_unitdir}/%{name}.service
 install -p -m 0644 %{SOURCE2} %{buildroot}%{bamboodatadir}/conf/server.xml
 install -p -m 0644 %{SOURCE3} %{buildroot}%{bamboodatadir}/lib/mysql-connector-java-%{mysqlconnectorversion}-bin.jar
 install -p -m 0644 %{SOURCE4} %{buildroot}%{bamboodatadir}/atlassian-%{name}/WEB-INF/classes/%{name}-init.properties
@@ -93,6 +93,8 @@ fi
 %{_unitdir}/%{name}.service
 
 %changelog
+* Mon Dec 18 2017 Martin Hagstrom <marhag87@gmail.com> 6.2.5-2
+- Systemd service file should not be executable
 * Tue Dec 12 2017 Martin Hagstrom (API) <marhag87@gmail.com> 6.2.5-1
 - Update to 6.2.5
 * Wed Nov 22 2017 Martin Hagstrom (API) <marhag87@gmail.com> 6.2.3-1
