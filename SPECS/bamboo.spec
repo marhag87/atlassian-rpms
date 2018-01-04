@@ -1,6 +1,6 @@
 Name:           bamboo
-Version:        6.2.5
-Release:        2%{?dist}
+Version:        6.3.0
+Release:        1%{?dist}
 %define         mysqlconnectorversion 5.1.40
 Summary:        A continuous integration web application
 
@@ -93,6 +93,8 @@ fi
 %{_unitdir}/%{name}.service
 
 %changelog
+* Thu Jan 04 2018 Martin Hagstrom (API) <marhag87@gmail.com> 6.3.0-1
+- Update to 6.3.0
 * Mon Dec 18 2017 Martin Hagstrom <marhag87@gmail.com> 6.2.5-2
 - Systemd service file should not be executable
 * Tue Dec 12 2017 Martin Hagstrom (API) <marhag87@gmail.com> 6.2.5-1
