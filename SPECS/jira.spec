@@ -1,6 +1,6 @@
 Name:           jira
-Version:        7.6.1
-Release:        2%{?dist}
+Version:        7.6.2
+Release:        1%{?dist}
 %define         mysqlconnectorversion 5.1.40
 Summary:        An issue tracking web application
 
@@ -96,6 +96,8 @@ fi
 %{_unitdir}/%{name}.service
 
 %changelog
+* Thu Jan 04 2018 Martin Hagstrom (API) <marhag87@gmail.com> 7.6.2-1
+- Update to 7.6.2
 * Mon Dec 18 2017 Martin Hagstrom <marhag87@gmail.com> 7.6.1-2
 - Systemd service file should not be executable
 * Thu Dec 07 2017 Martin Hagstrom (API) <marhag87@gmail.com> 7.6.1-1
