@@ -1,5 +1,5 @@
 Name:           bitbucket
-Version:        5.6.1
+Version:        5.6.2
 Release:        1%{?dist}
 %define         mysqlconnectorversion 5.1.40
 Summary:        A GIT repository web application
@@ -50,6 +50,7 @@ A GIT repository web application
 install -p -d -m 0755 %{buildroot}%{bitbucketdatadir}
 install -p -d -m 0755 %{buildroot}%{bitbuckethomedir}
 install -p -d -m 0755 %{buildroot}%{bitbucketlogdir}
+install -p -d -m 0755 %{buildroot}%{bitbucketdatadir}/conf/
 install -p -d -m 0755 %{buildroot}%{_sysconfdir}/init.d
 
 mv * %{buildroot}%{bitbucketdatadir}/
@@ -60,7 +61,6 @@ install -p -m 0644 %{SOURCE3} %{buildroot}%{bitbucketdatadir}/lib/mysql-connecto
 install -p -m 0644 %{SOURCE4} %{buildroot}%{bitbucketdatadir}/bin/user.sh
 install -p -m 0755 %{SOURCE5} %{buildroot}%{bitbucketdatadir}/bin/setenv.sh
 
-rmdir %{buildroot}%{bitbucketdatadir}/logs
 ln -sf %{bitbucketlogdir} %{buildroot}%{bitbucketdatadir}/logs
 
 %clean
@@ -89,6 +89,8 @@ fi
 %{_sysconfdir}/init.d/%{name}
 
 %changelog
+* Thu Jan 04 2018 Martin Hagstrom <marhag87@gmail.com> 5.6.2-1
+- Update to 5.6.2
 * Tue Dec 12 2017 Martin Hagstrom (API) <marhag87@gmail.com> 5.6.1-1
 - Update to 5.6.1
 * Tue Dec 05 2017 Martin Hagstrom (API) <marhag87@gmail.com> 5.6.0-1
