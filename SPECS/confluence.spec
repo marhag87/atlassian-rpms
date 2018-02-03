@@ -12,14 +12,16 @@ Source2:        %{name}-init.properties
 Source3:        %{name}-server.xml
 Source4:        mysql-connector-java-%{mysqlconnectorversion}-bin.jar
 Source5:        %{name}-user.sh
-Buildroot:      %{_tmppath}/%{name}-%{version}-%{release}-root
+Source6:        %{name}.service
 
-%if 0%{?fedora}
-Requires:       java
-%else
-Requires:       java-1.8.0-oracle
-%endif
-Requires(pre):  shadow-utils
+Requires:       java >= 1.8.0
+
+BuildRequires:          systemd
+
+Requires(pre):  	shadow-utils
+Requires(post):         systemd
+Requires(preun):        systemd
+Requires(postun):       systemd
 
 # Don't repackage jar files
 %define __jar_repack %{nil}
@@ -50,6 +52,7 @@ install -p -d -m 0755 %{buildroot}%{confluencedatadir}
 install -p -d -m 0755 %{buildroot}%{confluencehomedir}
 install -p -d -m 0755 %{buildroot}%{confluencelogdir}
 install -p -d -m 0755 %{buildroot}%{_sysconfdir}/init.d
+install -p -d -m 0755 %{buildroot}%{_unitdir}
 
 mv * %{buildroot}%{confluencedatadir}/
 
@@ -58,6 +61,7 @@ install -p -m 0644 %{SOURCE2} %{buildroot}%{confluencedatadir}/%{name}/WEB-INF/c
 install -p -m 0644 %{SOURCE3} %{buildroot}%{confluencedatadir}/conf/server.xml
 install -p -m 0644 %{SOURCE4} %{buildroot}%{confluencedatadir}/%{name}/WEB-INF/lib/mysql-connector-java-%{mysqlconnectorversion}-bin.jar
 install -p -m 0644 %{SOURCE5} %{buildroot}%{confluencedatadir}/bin/user.sh
+install -p -m 0644 %{SOURCE6} %{buildroot}%{_unitdir}/%{name}.service
 
 rmdir %{buildroot}%{confluencedatadir}/logs
 ln -sf %{confluencelogdir} %{buildroot}%{confluencedatadir}/logs
@@ -65,28 +69,32 @@ ln -sf %{confluencelogdir} %{buildroot}%{confluencedatadir}/logs
 %clean
 rm -rf %{buildroot}
 
+%post
+%systemd_post %{name}.service
+
+%preun
+%systemd_preun %{name}.service
+
+%postun
+%systemd_postun_with_restart %{name}.service
+
 %pre
-/etc/init.d/%{name} stop > /dev/null 2>&1
 getent group %{name} >/dev/null || groupadd -r %{name}
 getent passwd %{name} >/dev/null || \
     useradd -r -g %{name} -d %{confluencehomedir} -s /bin/bash \
-    -c "Confluence user" %{name}
+    -c "%{name} user" %{name}
 exit 0
 
-%preun
-if [ $1 -eq 0 ] ; then
-  /etc/init.d/%{name} stop > /dev/null 2>&1
-fi
-
 %files
-%defattr(-,confluence,confluence)
+%defattr(-,root,root)
 %{confluencedatadir}
-%{confluencehomedir}
-%{confluencelogdir}
+%attr(-,confluence,confluence) %{confluencehomedir}
+%attr(-,confluence,confluence) %{confluencelogdir}
 %config(noreplace) %{confluencedatadir}/%{name}/WEB-INF/classes/%{name}-init.properties
 %config(noreplace) %{confluencedatadir}/conf/server.xml
 %config(noreplace) %{confluencedatadir}/bin/setenv.sh
 %{_sysconfdir}/init.d/%{name}
+%{_unitdir}/%{name}.service
 
 %changelog
 * Wed Jan 31 2018 Martin Hagstrom (API) <marhag87@gmail.com> 6.7.0-1

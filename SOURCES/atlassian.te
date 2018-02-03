@@ -1,0 +1,82 @@
+policy_module(atlassian, 1.0.0)
+
+#
+# Rules for all *beat log collectors
+#   inherit by assigning a type attribute
+#
+
+#type logstash_port_t;
+#type kafka_port_t;
+#type elasticsearch_port_t;
+
+attribute atlassian_type;
+attribute atlassian_cache_type;
+attribute atlassian_var_lib_type;
+attribute atlassian_log_type;
+
+#corenet_port(logstash_port_t)
+#corenet_port(kafka_port_t)
+#corenet_port(elasticsearch_port_t)
+
+allow atlassian_type self:fifo_file rw_fifo_file_perms;
+allow atlassian_type self:unix_stream_socket create_stream_socket_perms;
+allow atlassian_type self:capability2 block_suspend;
+
+domain_use_interactive_fds(atlassian_type)
+files_read_etc_files(atlassian_type)
+
+miscfiles_read_localization(atlassian_type)
+miscfiles_read_generic_certs(atlassian_type)
+
+kernel_read_net_sysctls(atlassian_type)
+
+sysnet_dns_name_resolve(atlassian_type)
+corenet_tcp_bind_generic_node(atlassian_type)
+
+#corenet_tcp_connect_redis_port(atlassian_type)
+## semanage port -p tcp -t logstash_port_t -a 5044
+#atlassian_tcp_connect_logstash_port(atlassian_type)
+## semanage port -p tcp -t kafka_port_t -a 9092
+#atlassian_tcp_connect_kafka_port(atlassian_type)
+## semanage port -p tcp -t elasticsearch_port_t -a 9200
+#atlassian_tcp_connect_elasticsearch_port(atlassian_type)
+
+manage_dirs_pattern(atlassian_type, atlassian_var_lib_type, atlassian_var_lib_type)
+manage_files_pattern(atlassian_type, atlassian_var_lib_type, atlassian_var_lib_type)
+manage_lnk_files_pattern(atlassian_type, atlassian_var_lib_type, atlassian_var_lib_type)
+
+manage_dirs_pattern(atlassian_type, atlassian_log_type, atlassian_log_type)
+manage_files_pattern(atlassian_type, atlassian_log_type, atlassian_log_type)
+manage_lnk_files_pattern(atlassian_type, atlassian_log_type, atlassian_log_type)
+
+fs_getattr_all_fs(atlassian_type);
+
+auth_read_passwd(atlassian_type)
+#auth_use_nsswitch(atlassian_type)
+sysnet_read_config(atlassian_type)
+corecmd_check_exec_shell(atlassian_type)
+corecmd_exec_bin(atlassian_type)
+ 
+kernel_read_all_sysctls(atlassian_type)
+kernel_search_vm_sysctl(atlassian_type)
+kernel_read_network_state(atlassian_type)
+#kernel_read_system_state(atlassian_type)
+
+corecmd_search_bin(atlassian_type)
+ 
+files_read_etc_runtime_files(atlassian_type)
+fs_dontaudit_rw_tmpfs_files(atlassian_type)
+ 
+files_manage_generic_tmp_dirs(atlassian_type)
+files_manage_generic_tmp_files(atlassian_type)
+userdom_tmpfs_filetrans(atlassian_type, { file dir })
+userdom_manage_user_tmp_files(atlassian_type)
+dev_read_rand(atlassian_type)
+dev_read_sysfs(atlassian_type)
+dev_dontaudit_append_rand(atlassian_type)
+
+allow atlassian_type self:process { signal_perms getsched setsched };
+allow atlassian_type self:fifo_file rw_fifo_file_perms;
+allow atlassian_type self:unix_stream_socket create_stream_socket_perms;
+allow atlassian_type self:tcp_socket server_stream_socket_perms;
+allow atlassian_type self:process execmem;
