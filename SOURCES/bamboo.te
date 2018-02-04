@@ -1,0 +1,43 @@
+policy_module(bamboo, 1.0.0)
+
+require {
+  attribute atlassian_type;
+  attribute atlassian_log_type;
+  attribute atlassian_var_lib_type;
+
+  class capability { audit_control dac_override };
+  class file { create rename unlink write };
+  class netlink_audit_socket { bind create getattr nlmsg_read nlmsg_readpriv nlmsg_write };
+}
+
+type bamboo_t;
+typeattribute bamboo_t atlassian_type;
+
+type bamboo_exec_t;
+init_daemon_domain(bamboo_t, bamboo_exec_t)
+
+type bamboo_log_t;
+typeattribute bamboo_log_t atlassian_log_type;
+logging_log_file(bamboo_log_t)
+logging_log_filetrans(bamboo_t, bamboo_log_t, { dir file lnk_file })
+
+type bamboo_var_lib_t;
+typeattribute bamboo_var_lib_t atlassian_var_lib_type;
+files_type(bamboo_var_lib_t)
+files_var_lib_filetrans(bamboo_t, bamboo_var_lib_t, { dir file lnk_file })
+
+type bamboo_unit_file_t;
+systemd_unit_file(bamboo_unit_file_t)
+
+type bamboo_initrc_exec_t;
+init_script_file(bamboo_initrc_exec_t)
+
+# Stuff from common java role
+auth_use_nsswitch(bamboo_t)
+kernel_read_system_state(bamboo_t)
+
+files_read_all_files(bamboo_t)
+files_read_all_symlinks(bamboo_t)
+
+allow bamboo_t self:capability { audit_control dac_override };
+allow bamboo_t self:netlink_audit_socket { bind create getattr nlmsg_read nlmsg_readpriv nlmsg_write };

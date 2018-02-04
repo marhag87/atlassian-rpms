@@ -13,6 +13,15 @@ Source1:            atlassian.if
 Source2:            confluence.te
 Source3:            confluence.fc
 Source4:            confluence.if
+Source5:            bamboo.te
+Source6:            bamboo.fc
+Source7:            bamboo.if
+Source8:            bitbucket.te
+Source9:            bitbucket.fc
+Source10:           bitbucket.if
+Source11:           jira.te
+Source12:           jira.fc
+Source13:           jira.if
 
 BuildRequires:      selinux-policy-devel >= 3.13
 BuildRequires:      policycoreutils-devel
@@ -28,29 +37,35 @@ products..
 %prep
 %setup -c -n %{name} -T
 cp %{SOURCE0} %{SOURCE1} %{SOURCE2} %{SOURCE3} \
-   %{SOURCE4} \
- .
+   %{SOURCE4} %{SOURCE5} %{SOURCE6} %{SOURCE7} \
+   %{SOURCE8} %{SOURCE9} %{SOURCE10} %{SOURCE11} \
+   %{SOURCE12} %{SOURCE13} \
+.
 
 %build
-make -f /usr/share/selinux/devel/Makefile atlassian.pp || exit
-make -f /usr/share/selinux/devel/Makefile confluence.pp || exit
+for i in atlassian confluence bamboo bitbucket jira
+do
+  make -f /usr/share/selinux/devel/Makefile ${i}.pp || exit
+done
 
 %install
 install -d %{buildroot}%{_datadir}/selinux/packages
-install -m 0644 atlassian.pp %{buildroot}%{_datadir}/selinux/packages
-install -m 0644 confluence.pp %{buildroot}%{_datadir}/selinux/packages
+install -m 0644 *.pp %{buildroot}%{_datadir}/selinux/packages
 install -d %{buildroot}%{_datadir}/selinux/devel/include/contrib
-install -m 0644 atlassian.if %{buildroot}%{_datadir}/selinux/devel/include/contrib/
-install -m 0644 confluence.if %{buildroot}%{_datadir}/selinux/devel/include/contrib/
+install -m 0644 *.if %{buildroot}%{_datadir}/selinux/devel/include/contrib/
 
 %post
-semodule -n -i %{_datadir}/selinux/packages/atlassian.pp
-semodule -n -i %{_datadir}/selinux/packages/confluence.pp
+for i in atlassian confluence bamboo bitbucket jira
+do
+    semodule -n -i %{_datadir}/selinux/packages/${i}.pp
+done
 
 if /usr/sbin/selinuxenabled ; then
     /usr/sbin/load_policy
-    fixfiles -R atlassian
-    fixfiles -R confluence
+    for i in confluence bamboo bitbucket jira
+    do
+        fixfiles -R ${i} restore
+    done
 fi;
 
 #semanage port -p tcp -t logstash_port_t -a 5044
@@ -63,9 +78,10 @@ if [ $1 -eq 0 ]; then
 #    semanage port -p tcp -t logstash_port_t -d 5044
 #    semanage port -p tcp -t kafka_port_t -d 9092
 #    semanage port -p tcp -t elasticsearch_port_t -d 9200
-
-    semodule -n -r confluence
-    semodule -n -r atlassian
+    for i in confluence bamboo bitbucket jira atlassian
+    do
+        semodule -n -r ${i}
+    done
 
     if /usr/sbin/selinuxenabled ; then
        /usr/sbin/load_policy
@@ -75,10 +91,8 @@ exit 0
 
 %files
 %defattr(-,root,root,-)
-%{_datadir}/selinux/packages/atlassian.pp
-%{_datadir}/selinux/packages/confluence.pp
-%{_datadir}/selinux/devel/include/contrib/atlassian.if
-%{_datadir}/selinux/devel/include/contrib/confluence.if
+%{_datadir}/selinux/packages/*.pp
+%{_datadir}/selinux/devel/include/contrib/*.if
 
 %changelog
 * Wed Jan 17 2018 Robert FÜhricht <robert.fuehricht@jku.at> - 1.0-1

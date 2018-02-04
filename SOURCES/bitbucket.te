@@ -1,0 +1,43 @@
+policy_module(bitbucket, 1.0.0)
+
+require {
+  attribute atlassian_type;
+  attribute atlassian_log_type;
+  attribute atlassian_var_lib_type;
+
+  class capability { audit_control dac_override };
+  class file { create rename unlink write };
+  class netlink_audit_socket { bind create getattr nlmsg_read nlmsg_readpriv nlmsg_write };
+}
+
+type bitbucket_t;
+typeattribute bitbucket_t atlassian_type;
+
+type bitbucket_exec_t;
+init_daemon_domain(bitbucket_t, bitbucket_exec_t)
+
+type bitbucket_log_t;
+typeattribute bitbucket_log_t atlassian_log_type;
+logging_log_file(bitbucket_log_t)
+logging_log_filetrans(bitbucket_t, bitbucket_log_t, { dir file lnk_file })
+
+type bitbucket_var_lib_t;
+typeattribute bitbucket_var_lib_t atlassian_var_lib_type;
+files_type(bitbucket_var_lib_t)
+files_var_lib_filetrans(bitbucket_t, bitbucket_var_lib_t, { dir file lnk_file })
+
+type bitbucket_unit_file_t;
+systemd_unit_file(bitbucket_unit_file_t)
+
+type bitbucket_initrc_exec_t;
+init_script_file(bitbucket_initrc_exec_t)
+
+# Stuff from common java role
+auth_use_nsswitch(bitbucket_t)
+kernel_read_system_state(bitbucket_t)
+
+files_read_all_files(bitbucket_t)
+files_read_all_symlinks(bitbucket_t)
+
+allow bitbucket_t self:capability { audit_control dac_override };
+allow bitbucket_t self:netlink_audit_socket { bind create getattr nlmsg_read nlmsg_readpriv nlmsg_write };

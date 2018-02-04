@@ -4,6 +4,7 @@ require {
   attribute atlassian_type;
   attribute atlassian_log_type;
   attribute atlassian_var_lib_type;
+  attribute atlassian_cache_type;
 
   class capability { audit_control dac_override };
   class file { create rename unlink write };
@@ -12,7 +13,6 @@ require {
 
 type confluence_t;
 typeattribute confluence_t atlassian_type;
-
 
 type confluence_exec_t;
 init_daemon_domain(confluence_t, confluence_exec_t)
@@ -26,6 +26,11 @@ type confluence_var_lib_t;
 typeattribute confluence_var_lib_t atlassian_var_lib_type;
 files_type(confluence_var_lib_t)
 files_var_lib_filetrans(confluence_t, confluence_var_lib_t, { dir file lnk_file })
+
+type confluence_cache_t;
+typeattribute confluence_cache_t atlassian_cache_type;
+files_type(confluence_cache_t)
+files_var_filetrans(confluence_t, confluence_cache_t, { dir file lnk_file })
 
 type confluence_unit_file_t;
 systemd_unit_file(confluence_unit_file_t)

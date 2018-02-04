@@ -1,0 +1,7 @@
+/usr/lib/systemd/system/bitbucket.service		--	gen_context(system_u:object_r:bitbucket_unit_file_t,s0)
+
+/usr/share/atlassian/bitbucket/bin/start-bitbucket.sh 	--	gen_context(system_u:object_r:bitbucket_exec_t,s0)
+
+/var/atlassian/application-data/bitbucket(/.*)?		--	gen_context(system_u:object_r:bitbucket_var_lib_t,s0)
+/var/log/atlassian/bitbucket(/.*)?			--	gen_context(system_u:object_r:bitbucket_log_t,s0)
+

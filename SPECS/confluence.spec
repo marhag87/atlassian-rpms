@@ -38,6 +38,8 @@ Requires(postun):       systemd
 %define confluencedatadir %{_datarootdir}/atlassian/%{name}
 %define confluencehomedir %{_localstatedir}/atlassian/application-data/%{name}
 %define confluencelogdir  %{_localstatedir}/log/atlassian/%{name}
+%define confluenceworkdir %{_localstatedir}/cache/atlassian/%{name}/work
+%define confluencetempdir %{_localstatedir}/cache/atlassian/%{name}/temp
 
 %description
 A team collaboration web application
@@ -51,6 +53,8 @@ A team collaboration web application
 install -p -d -m 0755 %{buildroot}%{confluencedatadir}
 install -p -d -m 0755 %{buildroot}%{confluencehomedir}
 install -p -d -m 0755 %{buildroot}%{confluencelogdir}
+install -p -d -m 0755 %{buildroot}%{confluenceworkdir}
+install -p -d -m 0755 %{buildroot}%{confluencetempdir}
 install -p -d -m 0755 %{buildroot}%{_sysconfdir}/init.d
 install -p -d -m 0755 %{buildroot}%{_unitdir}
 
@@ -64,7 +68,11 @@ install -p -m 0644 %{SOURCE5} %{buildroot}%{confluencedatadir}/bin/user.sh
 install -p -m 0644 %{SOURCE6} %{buildroot}%{_unitdir}/%{name}.service
 
 rmdir %{buildroot}%{confluencedatadir}/logs
+rmdir %{buildroot}%{confluencedatadir}/work
+rm -rf %{buildroot}%{confluencedatadir}/temp
 ln -sf %{confluencelogdir} %{buildroot}%{confluencedatadir}/logs
+ln -sf %{confluenceworkdir} %{buildroot}%{confluencedatadir}/work
+ln -sf %{confluencetempdir} %{buildroot}%{confluencedatadir}/temp
 
 %clean
 rm -rf %{buildroot}
@@ -90,6 +98,8 @@ exit 0
 %{confluencedatadir}
 %attr(-,confluence,confluence) %{confluencehomedir}
 %attr(-,confluence,confluence) %{confluencelogdir}
+%attr(-,confluence,confluence) %{confluenceworkdir}
+%attr(-,confluence,confluence) %{confluencetempdir}
 %config(noreplace) %{confluencedatadir}/%{name}/WEB-INF/classes/%{name}-init.properties
 %config(noreplace) %{confluencedatadir}/conf/server.xml
 %config(noreplace) %{confluencedatadir}/bin/setenv.sh

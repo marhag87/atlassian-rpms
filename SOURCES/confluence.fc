@@ -1,8 +1,7 @@
-/etc/rc\.d/init\.d/confluence			--	gen_context(system_u:object_r:confluence_initrc_exec_t,s0)
-/usr/lib/systemd/system/confluence.service	--	gen_context(system_u:object_r:confluence_unit_file_t,s0)
+/usr/lib/systemd/system/confluence.service		--	gen_context(system_u:object_r:confluence_unit_file_t,s0)
 
-/usr/bin/confluence				--	gen_context(system_u:object_r:confluence_exec_t,s0)
-/usr/share/confluence/bin/confluence		--	gen_context(system_u:object_r:confluence_exec_t,s0)
+/usr/share/atlassian/confluence/bin/start-confluence.sh --	gen_context(system_u:object_r:confluence_exec_t,s0)
 
-/var/lib/confluence(/.*)?			--	gen_context(system_u:object_r:confluence_var_lib_t,s0)
-/var/log/confluence(/.*)?			--	gen_context(system_u:object_r:confluence_log_t,s0)
+/var/atlassian/application-data/confluence(/.*)?	--	gen_context(system_u:object_r:confluence_var_lib_t,s0)
+/var/log/atlassian/confluence(/.*)?			--	gen_context(system_u:object_r:confluence_log_t,s0)
+/var/cache/atlassian/confluence(/.*)?			--	gen_context(system_u:object_r:confluence_cache_t,s0)

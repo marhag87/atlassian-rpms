@@ -41,6 +41,10 @@ corenet_tcp_bind_generic_node(atlassian_type)
 ## semanage port -p tcp -t elasticsearch_port_t -a 9200
 #atlassian_tcp_connect_elasticsearch_port(atlassian_type)
 
+manage_dirs_pattern(atlassian_type, atlassian_cache_type, atlassian_cache_type)
+manage_files_pattern(atlassian_type, atlassian_cache_type, atlassian_cache_type)
+manage_lnk_files_pattern(atlassian_type, atlassian_cache_type, atlassian_cache_type)
+
 manage_dirs_pattern(atlassian_type, atlassian_var_lib_type, atlassian_var_lib_type)
 manage_files_pattern(atlassian_type, atlassian_var_lib_type, atlassian_var_lib_type)
 manage_lnk_files_pattern(atlassian_type, atlassian_var_lib_type, atlassian_var_lib_type)
