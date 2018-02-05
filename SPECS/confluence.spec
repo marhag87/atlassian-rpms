@@ -70,7 +70,8 @@ install -p -m 0644 %{SOURCE6} %{buildroot}%{_unitdir}/%{name}.service
 rmdir %{buildroot}%{confluencedatadir}/logs
 rmdir %{buildroot}%{confluencedatadir}/work
 rm -rf %{buildroot}%{confluencedatadir}/temp
-ln -sf %{confluencelogdir} %{buildroot}%{confluencedatadir}/logs
+
+ln -sf %{confluencelogdir}  %{buildroot}%{confluencedatadir}/logs
 ln -sf %{confluenceworkdir} %{buildroot}%{confluencedatadir}/work
 ln -sf %{confluencetempdir} %{buildroot}%{confluencedatadir}/temp
 

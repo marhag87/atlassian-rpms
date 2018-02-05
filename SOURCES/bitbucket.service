@@ -1,0 +1,11 @@
+[Unit]
+Description=Atlassian Bitbucket Service
+After=syslog.target network.target
+[Service]
+User=confluence
+Type=forking
+WorkingDirectory=/usr/share/atlassian/bitbucket/bin
+ExecStart=/usr/share/atlassian/bitbucket/bin/start-bitbucket.sh
+ExecStop=/usr/share/atlassian/bitbucket/bin/stop-bitbucket.sh
+[Install]
+WantedBy=multi-user.target

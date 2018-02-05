@@ -13,19 +13,15 @@ Source3:        %{name}-server.xml
 Source4:        mysql-connector-java-%{mysqlconnectorversion}-bin.jar
 Source5:        %{name}-user.sh
 Source6:        %{name}-check-java.sh
-Buildroot:      %{_tmppath}/%{name}-%{version}-%{release}-root
 
-%if 0%{?fedora}
-Requires:       java
-%else
-%if 0%{?centos}
-Requires:       java-1.8.0
-%else
-Requires:       java-1.8.0-oracle
-%endif
-%endif
-Requires(pre):  shadow-utils
-Requires:       systemd
+Requires:       java >= 1.8.0
+
+BuildRequires:  systemd
+
+Requires(pre):  	shadow-utils
+Requires(post):         systemd
+Requires(preun):        systemd
+Requires(postun):       systemd
 
 # Don't repackage jar files
 %define __jar_repack %{nil}
@@ -67,23 +63,31 @@ install -p -m 0644 %{SOURCE5} %{buildroot}%{jiradatadir}/bin/user.sh
 install -p -m 0755 %{SOURCE6} %{buildroot}%{jiradatadir}/bin/check-java.sh
 
 rmdir %{buildroot}%{jiradatadir}/logs
-ln -sf %{jiralogdir} %{buildroot}%{jiradatadir}/logs
+rmdir %{buildroot}%{jiradatadir}/work
+rm -rf %{buildroot}%{jiradatadir}/temp
+
+ln -sf %{jiralogdir}  %{buildroot}%{jiradatadir}/logs
+ln -sf %{jiraworkdir} %{buildroot}%{jiradatadir}/work
+ln -sf %{jiratempdir} %{buildroot}%{jiradatadir}/temp
 
 %clean
 rm -rf %{buildroot}
 
 %pre
-service %{name} stop > /dev/null 2>&1
 getent group %{name} >/dev/null || groupadd -r %{name}
 getent passwd %{name} >/dev/null || \
     useradd -r -g %{name} -d %{jirahomedir} -s /bin/bash \
-    -c "Jira user" %{name}
+    -c "%{name} user" %{name}
 exit 0
 
+%post
+%systemd_post %{name}.service
+
 %preun
-if [ $1 -eq 0 ] ; then
-  service %{name} stop > /dev/null 2>&1 || true
-fi
+%systemd_preun %{name}.service
+
+%postun
+%systemd_postun_with_restart %{name}.service
 
 %files
 %defattr(-,jira,jira)
