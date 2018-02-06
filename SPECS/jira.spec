@@ -14,6 +14,7 @@ Source4:        mysql-connector-java-%{mysqlconnectorversion}-bin.jar
 Source5:        %{name}-user.sh
 Source6:        %{name}-check-java.sh
 
+Requires:	tomcat-native
 Requires:       java >= 1.8.0
 
 BuildRequires:  systemd
@@ -38,6 +39,8 @@ Requires(postun):       systemd
 %define jiradatadir %{_datarootdir}/atlassian/%{name}
 %define jirahomedir %{_localstatedir}/atlassian/application-data/%{name}
 %define jiralogdir  %{_localstatedir}/log/atlassian/%{name}
+%define jiraworkdir %{_localstatedir}/cache/atlassian/%{name}/work
+%define jiratempdir %{_localstatedir}/cache/atlassian/%{name}/temp
 
 %description
 An issue tracking web application
@@ -51,6 +54,9 @@ An issue tracking web application
 install -p -d -m 0755 %{buildroot}%{jiradatadir}
 install -p -d -m 0755 %{buildroot}%{jirahomedir}
 install -p -d -m 0755 %{buildroot}%{jiralogdir}
+install -p -d -m 0755 %{buildroot}%{jiraworkdir}
+install -p -d -m 0755 %{buildroot}%{jiratempdir}
+
 install -p -d -m 0755 %{buildroot}%{_unitdir}
 
 mv * %{buildroot}%{jiradatadir}/
@@ -90,13 +96,17 @@ exit 0
 %systemd_postun_with_restart %{name}.service
 
 %files
-%defattr(-,jira,jira)
+%defattr(-,root,root)
 %{jiradatadir}
-%{jirahomedir}
-%{jiralogdir}
+%attr(-,jira,jira) %{jirahomedir}
+%attr(-,jira,jira) %{jiralogdir}
+%attr(-,jira,jira) %{jiraworkdir}
+%attr(-,jira,jira) %{jiratempdir}
+
 %config(noreplace) %{jiradatadir}/atlassian-%{name}/WEB-INF/classes/%{name}-application.properties
 %config(noreplace) %{jiradatadir}/conf/server.xml
 %config(noreplace) %{jiradatadir}/bin/setenv.sh
+
 %{_unitdir}/%{name}.service
 
 %changelog
