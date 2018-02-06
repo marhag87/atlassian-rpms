@@ -2,5 +2,6 @@
 
 /usr/share/atlassian/bamboo/bin/start-bamboo.sh --	gen_context(system_u:object_r:bamboo_exec_t,s0)
 
-/var/atlassian/application-data/bamboo(/.*)?	--	gen_context(system_u:object_r:bamboo_var_lib_t,s0)
-/var/log/atlassian/bamboo(/.*)?			--	gen_context(system_u:object_r:bamboo_log_t,s0)
+/var/atlassian/application-data/bamboo(/.*)?		gen_context(system_u:object_r:bamboo_var_lib_t,s0)
+/var/log/atlassian/bamboo(/.*)?				gen_context(system_u:object_r:bamboo_log_t,s0)
+/var/cache/atlassian/bamboo(/.*)?			gen_context(system_u:object_r:bamboo_cache_t,s0)

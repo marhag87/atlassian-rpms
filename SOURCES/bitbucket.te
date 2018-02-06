@@ -4,6 +4,7 @@ require {
   attribute atlassian_type;
   attribute atlassian_log_type;
   attribute atlassian_var_lib_type;
+  attribute atlassian_cache_type;
 
   class capability { audit_control dac_override };
   class file { create rename unlink write };
@@ -25,6 +26,11 @@ type bitbucket_var_lib_t;
 typeattribute bitbucket_var_lib_t atlassian_var_lib_type;
 files_type(bitbucket_var_lib_t)
 files_var_lib_filetrans(bitbucket_t, bitbucket_var_lib_t, { dir file lnk_file })
+
+type bitbucket_cache_t;
+typeattribute bitbucket_cache_t atlassian_cache_type;
+files_type(bitbucket_cache_t)
+files_var_filetrans(bitbucket_t, bitbucket_cache_t, { dir file lnk_file })
 
 type bitbucket_unit_file_t;
 systemd_unit_file(bitbucket_unit_file_t)

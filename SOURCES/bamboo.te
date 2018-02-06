@@ -4,6 +4,7 @@ require {
   attribute atlassian_type;
   attribute atlassian_log_type;
   attribute atlassian_var_lib_type;
+  attribute atlassian_cache_type;
 
   class capability { audit_control dac_override };
   class file { create rename unlink write };
@@ -25,6 +26,11 @@ type bamboo_var_lib_t;
 typeattribute bamboo_var_lib_t atlassian_var_lib_type;
 files_type(bamboo_var_lib_t)
 files_var_lib_filetrans(bamboo_t, bamboo_var_lib_t, { dir file lnk_file })
+
+type bamboo_cache_t;
+typeattribute bamboo_cache_t atlassian_cache_type;
+files_type(bamboo_cache_t)
+files_var_filetrans(bamboo_t, bamboo_cache_t, { dir file lnk_file })
 
 type bamboo_unit_file_t;
 systemd_unit_file(bamboo_unit_file_t)
