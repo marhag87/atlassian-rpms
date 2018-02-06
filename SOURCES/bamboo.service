@@ -5,6 +5,8 @@ After=syslog.target network.target
 [Service]
 Type=forking
 User=bamboo
+Group=bamboo
+EnvironmentFile=-/etc/sysconfig/bamboo
 ExecStart=/usr/share/atlassian/bamboo/bin/start-bamboo.sh
 ExecStop=/usr/share/atlassian/bamboo/bin/stop-bamboo.sh
 

@@ -1,11 +1,18 @@
 [Unit]
 Description=Atlassian Bitbucket Service
 After=syslog.target network.target
+
 [Service]
-User=confluence
+User=bitbucket
+Group=bitbucket
 Type=forking
+EnvironmentFile=-/etc/sysconfig/bitbucket
+Environment=JRE_HOME=/usr/lib/jvm/jre-1.8.0
+Environment=BITBUCKET_HOME=/var/atlassian/application-data/bitbucket
+UMask=0027
 WorkingDirectory=/usr/share/atlassian/bitbucket/bin
 ExecStart=/usr/share/atlassian/bitbucket/bin/start-bitbucket.sh
 ExecStop=/usr/share/atlassian/bitbucket/bin/stop-bitbucket.sh
+
 [Install]
 WantedBy=multi-user.target
