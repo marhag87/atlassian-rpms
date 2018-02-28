@@ -1,5 +1,5 @@
 Name:           bitbucket
-Version:        5.8.0
+Version:        5.8.1
 Release:        1%{?dist}
 %define         mysqlconnectorversion 5.1.40
 Summary:        A GIT repository web application
@@ -89,6 +89,8 @@ fi
 %{_sysconfdir}/init.d/%{name}
 
 %changelog
+* Thu Mar 01 2018 Martin Hagstrom (API) <marhag87@gmail.com> 5.8.1-1
+- Update to 5.8.1
 * Fri Feb 16 2018 Martin Hagstrom (API) <marhag87@gmail.com> 5.8.0-1
 - Update to 5.8.0
 * Wed Jan 31 2018 Martin Hagstrom (API) <marhag87@gmail.com> 5.7.1-1
