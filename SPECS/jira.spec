@@ -1,5 +1,5 @@
 Name:           jira
-Version:        7.9.1
+Version:        7.9.0
 Release:        1%{?dist}
 %define         mysqlconnectorversion 5.1.40
 Summary:        An issue tracking web application
@@ -96,6 +96,8 @@ fi
 %{_unitdir}/%{name}.service
 
 %changelog
+* Tue May 08 2018 Martin Hagstrom (API) <marhag87@gmail.com> 7.9.0-1
+- Update to 7.9.0
 * Wed Apr 25 2018 Martin Hagstrom (API) <marhag87@gmail.com> 7.9.1-1
 - Update to 7.9.1
 * Mon Apr 23 2018 Martin Hagstrom (API) <marhag87@gmail.com> 7.9.0-1
