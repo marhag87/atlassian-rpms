@@ -20,6 +20,8 @@
                    proxyPort="443"
                    secure="true"
                    acceptCount="100"
+                   relaxedPathChars="[]|"
+                   relaxedQueryChars="[]|{}^&#x5c;&#x60;&quot;&lt;&gt;"
                    disableUploadTimeout="true"/>
 
         <Connector port="8081"
@@ -31,6 +33,8 @@
                    protocol="HTTP/1.1"
                    useBodyEncodingForURI="true"
                    acceptCount="100"
+                   relaxedPathChars="[]|"
+                   relaxedQueryChars="[]|{}^&#x5c;&#x60;&quot;&lt;&gt;"
                    disableUploadTimeout="true"/>
 
         <Engine name="Catalina" defaultHost="localhost">
