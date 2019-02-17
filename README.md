@@ -1,3 +1,5 @@
+# Warning - This repo is no longer updated automatically
+
 atlassian-rpms
 ==============
 Build RPM files for some Atlassian products
