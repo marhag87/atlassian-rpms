@@ -12,15 +12,16 @@ Source2:        %{name}-server.xml
 Source3:        mysql-connector-java-%{mysqlconnectorversion}-bin.jar
 Source4:        %{name}-user.sh
 Source5:        %{name}-setenv.sh
-Buildroot:      %{_tmppath}/%{name}-%{version}-%{release}-root
+Source6:        %{name}.service
 
-%if 0%{?fedora}
-Requires:       java
-%else
-Requires:       java-1.8.0-oracle
-%endif
-Requires:       git >= 1.8.0
-Requires(pre):  shadow-utils
+Requires:       java >= 1.8.0
+
+BuildRequires:  systemd
+
+Requires(pre):  	shadow-utils
+Requires(post):         systemd
+Requires(preun):        systemd
+Requires(postun):       systemd
 
 # Don't repackage jar files
 %define __jar_repack %{nil}
@@ -37,6 +38,8 @@ Requires(pre):  shadow-utils
 %define bitbucketdatadir %{_datarootdir}/atlassian/%{name}
 %define bitbuckethomedir %{_localstatedir}/atlassian/application-data/%{name}
 %define bitbucketlogdir  %{_localstatedir}/log/atlassian/%{name}
+%define bitbucketworkdir %{_localstatedir}/cache/atlassian/%{name}/work
+%define bitbuckettempdir %{_localstatedir}/cache/atlassian/%{name}/temp
 
 %description
 A GIT repository web application
@@ -51,42 +54,54 @@ install -p -d -m 0755 %{buildroot}%{bitbucketdatadir}
 install -p -d -m 0755 %{buildroot}%{bitbuckethomedir}
 install -p -d -m 0755 %{buildroot}%{bitbucketlogdir}
 install -p -d -m 0755 %{buildroot}%{bitbucketdatadir}/conf/
-install -p -d -m 0755 %{buildroot}%{_sysconfdir}/init.d
+install -p -d -m 0755 %{buildroot}%{bitbucketworkdir}
+install -p -d -m 0755 %{buildroot}%{bitbuckettempdir}
 
 mv * %{buildroot}%{bitbucketdatadir}/
 
-install -p -m 0755 %{SOURCE1} %{buildroot}%{_sysconfdir}/init.d/%{name}
 install -p -m 0644 %{SOURCE2} %{buildroot}%{bitbucketdatadir}/conf/server.xml
 install -p -m 0644 %{SOURCE3} %{buildroot}%{bitbucketdatadir}/lib/mysql-connector-java-%{mysqlconnectorversion}-bin.jar
 install -p -m 0644 %{SOURCE4} %{buildroot}%{bitbucketdatadir}/bin/user.sh
 install -p -m 0755 %{SOURCE5} %{buildroot}%{bitbucketdatadir}/bin/setenv.sh
+install -D -p -m 0644 %{SOURCE6} %{buildroot}%{_unitdir}/%{name}.service
 
-ln -sf %{bitbucketlogdir} %{buildroot}%{bitbucketdatadir}/logs
+#rmdir %{buildroot}%{bitbucketdatadir}/logs
+#rmdir %{buildroot}%{bitbucketdatadir}/work
+rm -rf %{buildroot}%{bitbucketdatadir}/temp
+
+ln -sf %{bitbucketlogdir}  %{buildroot}%{bitbucketdatadir}/logs
+ln -sf %{bitbucketworkdir} %{buildroot}%{bitbucketdatadir}/work
+ln -sf %{bitbuckettempdir} %{buildroot}%{bitbucketdatadir}/temp
 
 %clean
 rm -rf %{buildroot}
 
+%post
+%systemd_post %{name}.service
+
+%preun
+%systemd_preun %{name}.service
+
+%postun
+%systemd_postun_with_restart %{name}.service
+
 %pre
-/etc/init.d/%{name} stop > /dev/null 2>&1
 getent group %{name} >/dev/null || groupadd -r %{name}
 getent passwd %{name} >/dev/null || \
     useradd -r -g %{name} -d %{bitbuckethomedir} -s /bin/bash \
-    -c "Bitbucket user" %{name}
+    -c "%{name} user" %{name}
 exit 0
 
-%preun
-if [ $1 -eq 0 ] ; then
-  /etc/init.d/%{name} stop > /dev/null 2>&1
-fi
-
 %files
-%defattr(-,bitbucket,bitbucket)
+%defattr(-,root,root)
 %{bitbucketdatadir}
-%{bitbuckethomedir}
-%{bitbucketlogdir}
+%attr(-,bitbucket,bitbucket) %{bitbuckethomedir}
+%attr(-,bitbucket,bitbucket) %{bitbucketlogdir}
+%attr(-,bitbucket,bitbucket) %{bitbucketworkdir}
+%attr(-,bitbucket,bitbucket) %{bitbuckettempdir}
 %config(noreplace) %{bitbucketdatadir}/conf/server.xml
 %config(noreplace) %{bitbucketdatadir}/bin/setenv.sh
-%{_sysconfdir}/init.d/%{name}
+%{_unitdir}/%{name}.service
 
 %changelog
 * Wed Nov 21 2018 Martin Hagstrom (API) <marhag87@gmail.com> 5.16.0-1

@@ -1,0 +1,15 @@
+[Unit]
+Description=Atlassian Confluence Service
+After=syslog.target network.target
+
+[Service]
+User=confluence
+Group=confluence
+Type=forking
+EnvironmentFile=-/etc/sysconfig/confluence
+WorkingDirectory=/usr/share/atlassian/confluence/bin
+ExecStart=/usr/share/atlassian/confluence/bin/start-confluence.sh
+ExecStop=/usr/share/atlassian/confluence/bin/stop-confluence.sh
+
+[Install]
+WantedBy=multi-user.target

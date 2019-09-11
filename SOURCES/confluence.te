@@ -1,0 +1,49 @@
+policy_module(confluence, 1.0.0)
+
+require {
+  attribute atlassian_type;
+  attribute atlassian_log_type;
+  attribute atlassian_var_lib_type;
+  attribute atlassian_cache_type;
+
+  class capability { audit_control dac_override };
+  class file { create rename unlink write };
+  class netlink_audit_socket { bind create getattr nlmsg_read nlmsg_readpriv nlmsg_write };
+}
+
+type confluence_t;
+typeattribute confluence_t atlassian_type;
+
+type confluence_exec_t;
+init_daemon_domain(confluence_t, confluence_exec_t)
+
+type confluence_log_t;
+typeattribute confluence_log_t atlassian_log_type;
+logging_log_file(confluence_log_t)
+logging_log_filetrans(confluence_t, confluence_log_t, { dir file lnk_file })
+
+type confluence_var_lib_t;
+typeattribute confluence_var_lib_t atlassian_var_lib_type;
+files_type(confluence_var_lib_t)
+files_var_lib_filetrans(confluence_t, confluence_var_lib_t, { dir file lnk_file })
+
+type confluence_cache_t;
+typeattribute confluence_cache_t atlassian_cache_type;
+files_type(confluence_cache_t)
+files_var_filetrans(confluence_t, confluence_cache_t, { dir file lnk_file })
+
+type confluence_unit_file_t;
+systemd_unit_file(confluence_unit_file_t)
+
+type confluence_initrc_exec_t;
+init_script_file(confluence_initrc_exec_t)
+
+# Stuff from common java role
+auth_use_nsswitch(confluence_t)
+kernel_read_system_state(confluence_t)
+
+files_read_all_files(confluence_t)
+files_read_all_symlinks(confluence_t)
+
+allow confluence_t self:capability { audit_control dac_override };
+allow confluence_t self:netlink_audit_socket { bind create getattr nlmsg_read nlmsg_readpriv nlmsg_write };

@@ -1,0 +1,43 @@
+policy_module(jira, 1.0.0)
+
+require {
+  attribute atlassian_type;
+  attribute atlassian_log_type;
+  attribute atlassian_var_lib_type;
+
+  class capability { audit_control dac_override };
+  class file { create rename unlink write };
+  class netlink_audit_socket { bind create getattr nlmsg_read nlmsg_readpriv nlmsg_write };
+}
+
+type jira_t;
+typeattribute jira_t atlassian_type;
+
+type jira_exec_t;
+init_daemon_domain(jira_t, jira_exec_t)
+
+type jira_log_t;
+typeattribute jira_log_t atlassian_log_type;
+logging_log_file(jira_log_t)
+logging_log_filetrans(jira_t, jira_log_t, { dir file lnk_file })
+
+type jira_var_lib_t;
+typeattribute jira_var_lib_t atlassian_var_lib_type;
+files_type(jira_var_lib_t)
+files_var_lib_filetrans(jira_t, jira_var_lib_t, { dir file lnk_file })
+
+type jira_unit_file_t;
+systemd_unit_file(jira_unit_file_t)
+
+type jira_initrc_exec_t;
+init_script_file(jira_initrc_exec_t)
+
+# Stuff from common java role
+auth_use_nsswitch(jira_t)
+kernel_read_system_state(jira_t)
+
+files_read_all_files(jira_t)
+files_read_all_symlinks(jira_t)
+
+allow jira_t self:capability { audit_control dac_override };
+allow jira_t self:netlink_audit_socket { bind create getattr nlmsg_read nlmsg_readpriv nlmsg_write };

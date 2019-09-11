@@ -5,6 +5,8 @@ After=syslog.target network.target
 [Service]
 Type=forking
 User=jira
+Group=jira
+EnvironmentFile=-/etc/sysconfig/jira
 ExecStart=/usr/share/atlassian/jira/bin/start-jira.sh
 ExecStop=/usr/share/atlassian/jira/bin/stop-jira.sh
 

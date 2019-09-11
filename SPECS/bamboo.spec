@@ -13,16 +13,17 @@ Source3:        mysql-connector-java-%{mysqlconnectorversion}-bin.jar
 Source4:        %{name}-init.properties
 Source5:        stop-%{name}.sh
 Source6:        %{name}-setenv.sh
-Buildroot:      %{_tmppath}/%{name}-%{version}-%{release}-root
+
+Requires:       java >= 1.8.0
+
+BuildRequires:  systemd
+
+Requires(pre):  	shadow-utils
+Requires(post):         systemd
+Requires(preun):        systemd
+Requires(postun):       systemd
 
 AutoReqProv:    no
-%if 0%{?fedora}
-Requires:       java
-%else
-Requires:       java-1.8.0-oracle
-%endif
-Requires(pre):  shadow-utils
-BuildRequires:  systemd
 
 # Don't repackage jar files
 %define __jar_repack %{nil}
@@ -39,6 +40,8 @@ BuildRequires:  systemd
 %define bamboodatadir %{_datarootdir}/atlassian/%{name}
 %define bamboohomedir %{_localstatedir}/atlassian/application-data/%{name}
 %define bamboologdir  %{_localstatedir}/log/atlassian/%{name}
+%define bambooworkdir %{_localstatedir}/cache/atlassian/%{name}/work
+%define bambootempdir %{_localstatedir}/cache/atlassian/%{name}/temp
 
 %description
 A continuous integration web application
@@ -52,6 +55,8 @@ A continuous integration web application
 install -p -d -m 0755 %{buildroot}%{bamboodatadir}
 install -p -d -m 0755 %{buildroot}%{bamboohomedir}
 install -p -d -m 0755 %{buildroot}%{bamboologdir}
+install -p -d -m 0755 %{buildroot}%{bambooworkdir}
+install -p -d -m 0755 %{buildroot}%{bambootempdir}
 install -p -d -m 0755 %{buildroot}%{_unitdir}
 
 mv * %{buildroot}%{bamboodatadir}/
@@ -64,29 +69,40 @@ install -p -m 0755 %{SOURCE5} %{buildroot}%{bamboodatadir}/bin/stop-%{name}.sh
 install -p -m 0755 %{SOURCE6} %{buildroot}%{bamboodatadir}/bin/setenv.sh
 
 rmdir %{buildroot}%{bamboodatadir}/logs
-ln -sf %{bamboologdir} %{buildroot}%{bamboodatadir}/logs
+rmdir %{buildroot}%{bamboodatadir}/work
+rm -rf %{buildroot}%{bamboodatadir}/temp
+
+ln -sf %{bamboologdir}  %{buildroot}%{bamboodatadir}/logs
+ln -sf %{bambooworkdir} %{buildroot}%{bamboodatadir}/work
+ln -sf %{bambootempdir} %{buildroot}%{bamboodatadir}/temp
 
 %clean
 rm -rf %{buildroot}
 
+%post
+%systemd_post %{name}.service
+
+%preun
+%systemd_preun %{name}.service
+
+%postun
+%systemd_postun_with_restart %{name}.service
+
 %pre
-/etc/init.d/%{name} stop > /dev/null 2>&1
 getent group %{name} >/dev/null || groupadd -r %{name}
 getent passwd %{name} >/dev/null || \
     useradd -r -g %{name} -d %{bamboohomedir} -s /bin/bash \
-    -c "Bamboo user" %{name}
+    -c "%{name} user" %{name}
 exit 0
 
-%preun
-if [ $1 -eq 0 ] ; then
-  /etc/init.d/%{name} stop > /dev/null 2>&1
-fi
-
 %files
-%defattr(-,bamboo,bamboo)
+%defattr(-,root,root)
 %{bamboodatadir}
-%{bamboohomedir}
-%{bamboologdir}
+%attr(-,bamboo,bamboo) %{bamboohomedir}
+%attr(-,bamboo,bamboo) %{bamboologdir}
+%attr(-,bamboo,bamboo) %{bambooworkdir}
+%attr(-,bamboo,bamboo) %{bambootempdir}
+
 %config(noreplace) %{bamboodatadir}/conf/server.xml
 %config(noreplace) %{bamboodatadir}/bin/setenv.sh
 %config(noreplace) %{bamboodatadir}/atlassian-%{name}/WEB-INF/classes/%{name}-init.properties
